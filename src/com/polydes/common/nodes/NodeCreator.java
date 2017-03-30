@@ -22,7 +22,7 @@ public interface NodeCreator<T extends Leaf<T,U>, U extends Branch<T,U>>
 	void nodeRemoved(T toRemove);
 	boolean attemptRemove(List<T> toRemove);
 	
-	static final ImageIcon folderIcon = ResourceLoader.loadIcon("tree/folder-enabled.png");
+	static final ImageIcon folderIcon = ResourceLoader.getResources("com.polydes.common").loadIcon("tree/folder-enabled.png");
 	public static CreatableNodeInfo folderInfo = new CreatableNodeInfo("Folder", null, folderIcon);
 	
 	public static class ActionInfo implements MenuItemAccess

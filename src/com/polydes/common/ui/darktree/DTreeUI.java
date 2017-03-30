@@ -17,12 +17,15 @@ import javax.swing.tree.TreePath;
 
 import com.polydes.common.nodes.Branch;
 import com.polydes.common.res.ResourceLoader;
+import com.polydes.common.res.Resources;
 
 public class DTreeUI extends BasicTreeUI implements MouseListener
 {
-	public static final Icon iconNoChildren = ResourceLoader.loadIcon("tree/circle.png");
-	public static final Icon iconExpanded = ResourceLoader.loadIcon("tree/arrow-down.png");
-	public static final Icon iconCollapsed = ResourceLoader.loadIcon("tree/arrow-right.png");
+	private static Resources res = ResourceLoader.getResources("com.polydes.common");
+	
+	public static final Icon iconNoChildren = res.loadIcon("tree/circle.png");
+	public static final Icon iconExpanded = res.loadIcon("tree/arrow-down.png");
+	public static final Icon iconCollapsed = res.loadIcon("tree/arrow-right.png");
 
 	public static JPanel highlighter = null;
 	public static final Color highlightColor = new Color(102, 102, 102);

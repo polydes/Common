@@ -6,10 +6,12 @@ import java.util.HashSet;
 import javax.swing.ImageIcon;
 
 import com.polydes.common.res.ResourceLoader;
+import com.polydes.common.res.Resources;
 
 public class DefaultBranch extends DefaultLeaf implements Branch<DefaultLeaf,DefaultBranch>
 {
-	public static final ImageIcon folderIcon = ResourceLoader.loadIcon("filelist/folder.png");
+	private static Resources res = ResourceLoader.getResources("com.polydes.common");
+	public static final ImageIcon folderIcon = res.loadIcon("filelist/folder.png");
 	
 	protected ArrayList<BranchListener<DefaultLeaf,DefaultBranch>> fListeners;
 	protected ArrayList<DefaultLeaf> items;

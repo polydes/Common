@@ -35,6 +35,7 @@
 	<var name="this.src" value="./src" />
 	<var name="this.build" value="./build" />
 	<var name="this.lib" value="./libs" />
+	<var name="this.res" value="./res" />
 	<var name="this.pkg" value="${pkg}" />
 	<set-var-if-unset name="version" value="1.0.0" />
 	
@@ -58,7 +59,7 @@
 	<set-var-if-unset name="name" value="My Extension" />
 	<set-var-if-unset name="description" value="Description" />
 	<set-var-if-unset name="author" value="Author" />
-	<set-var-if-unset name="website" value="https://github.com/justin-espedal/polydes" />
+	<set-var-if-unset name="website" value="https://github.com/polydes" />
 	<set-var-if-unset name="internalVersion" value="1" />
 	
 	<set-var-if-unset name="type" value="normal" />
@@ -89,19 +90,22 @@
 	<!-- Copying resources -->
 	
 	<target name="copy-resources">
-		<copy toDir="${this.build}/${this.pkg}/res">
-			<fileset dir="${this.src}/${this.pkg}/res">
-				<exclude name="Resources.java" />
-			</fileset>
-		</copy>
-	</target>
-	
-	<target name="copy-defaults">
-		<copy toDir="${this.build}/${this.pkg}/defaults">
-			<fileset dir="${this.src}/${this.pkg}/defaults">
-				<exclude name="Defaults.java" />
-			</fileset>
-		</copy>
+		
+		<if>
+			<available file="${this.res}"/>
+			<then>
+				<copy toDir="${this.build}/res/${this.pkg}">
+					<fileset dir="${this.res}" />
+				</copy>
+			</then>
+		</if>
+		<if>
+			<available file="icon.png"/>
+			<then>
+				<copy toFile="${this.build}/${this.pkg}/res/icon.png" file="icon.png" />
+			</then>
+		</if>
+		
 	</target>
 	
 	<!-- Jar files -->

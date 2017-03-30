@@ -13,6 +13,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
 
 import com.polydes.common.res.ResourceLoader;
+import com.polydes.common.res.Resources;
 
 import stencyl.sw.SW;
 import stencyl.sw.util.UI;
@@ -20,6 +21,8 @@ import stencyl.sw.util.comp.RoundedLabel;
 
 public abstract class PropertiesSheetStyle
 {
+	private static Resources res = ResourceLoader.getResources("com.polydes.common");
+	
 	public static Dark DARK = new Dark();
 	public static Light LIGHT = new Light();
 	
@@ -80,7 +83,7 @@ public abstract class PropertiesSheetStyle
 	
 	public JLabel createEditorHint(String text)
 	{
-		JLabel label = new JLabel(ResourceLoader.loadIcon("question-small-white.png"));
+		JLabel label = new JLabel(res.loadIcon("question-small-white.png"));
 		label.setToolTipText("<html>" + text + "</html>");
 		
 		return label;

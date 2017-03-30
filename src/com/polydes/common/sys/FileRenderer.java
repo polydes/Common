@@ -16,19 +16,22 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import com.polydes.common.res.ResourceLoader;
+import com.polydes.common.res.Resources;
 
 import misc.gfx.GraphicsUtilities;
 import stencyl.sw.util.gfx.ImageUtil;
 
 public class FileRenderer
 {
+	private static Resources res = ResourceLoader.getResources("com.polydes.common");
+	
 	public static final int MINI_SIZE = 16;
 	
 	public static final int DEFAULT_WIDTH = 92;
 	public static final int DEFAULT_HEIGHT = 80;
 	
-	public static ImageIcon folderThumb = ResourceLoader.loadIcon("filelist/folder.png");
-	public static ImageIcon fileThumb = ResourceLoader.loadIcon("filelist/file.png");
+	public static ImageIcon folderThumb = res.loadIcon("filelist/folder.png");
+	public static ImageIcon fileThumb = res.loadIcon("filelist/file.png");
 
 	protected int fontSize = 3;
 	

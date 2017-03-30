@@ -49,6 +49,7 @@ import com.polydes.common.nodes.NodeCreator.NodeAction;
 import com.polydes.common.nodes.NodeSelection;
 import com.polydes.common.nodes.NodeUtils;
 import com.polydes.common.res.ResourceLoader;
+import com.polydes.common.res.Resources;
 import com.polydes.common.util.PopupUtil;
 
 import stencyl.sw.util.UI;
@@ -57,6 +58,8 @@ public class DarkTree<T extends Leaf<T,U>, U extends Branch<T,U>> extends JPanel
 	implements TreeSelectionListener, CellEditorListener, CellEditValidator,
 				ActionListener, KeyListener, MouseListener
 {
+	private static Resources res = ResourceLoader.getResources("com.polydes.common");
+	
 	public static final int DEF_WIDTH = 200;
 	public static final int MINI_BUTTON_WIDTH = 25;
 	public static final int MINI_BUTTON_HEIGHT = 21;
@@ -81,17 +84,17 @@ public class DarkTree<T extends Leaf<T,U>, U extends Branch<T,U>> extends JPanel
 	private JButton removeItemButton;
 	private JButton propertiesButton;
 	
-	private static ImageIcon newItemEnabled = ResourceLoader.loadIcon("tree/plus-enabled.png");
-	private static ImageIcon newItemDisabled = ResourceLoader.loadIcon("tree/plus-disabled.png");
-	private static ImageIcon newItemPressed = ResourceLoader.loadIcon("tree/plus-pressed.png");
+	private static ImageIcon newItemEnabled = res.loadIcon("tree/plus-enabled.png");
+	private static ImageIcon newItemDisabled = res.loadIcon("tree/plus-disabled.png");
+	private static ImageIcon newItemPressed = res.loadIcon("tree/plus-pressed.png");
 	
-	private static ImageIcon removeItemEnabled = ResourceLoader.loadIcon("tree/minus-enabled.png");
-	private static ImageIcon removeItemDisabled = ResourceLoader.loadIcon("tree/minus-disabled.png");
-	private static ImageIcon removeItemPressed = ResourceLoader.loadIcon("tree/minus-pressed.png");
+	private static ImageIcon removeItemEnabled = res.loadIcon("tree/minus-enabled.png");
+	private static ImageIcon removeItemDisabled = res.loadIcon("tree/minus-disabled.png");
+	private static ImageIcon removeItemPressed = res.loadIcon("tree/minus-pressed.png");
 
-	private static ImageIcon propertiesEnabled = ResourceLoader.loadIcon("tree/properties-enabled.png");
-	private static ImageIcon propertiesDisabled = ResourceLoader.loadIcon("tree/properties-disabled.png");
-	private static ImageIcon propertiesPressed = ResourceLoader.loadIcon("tree/properties-pressed.png");
+	private static ImageIcon propertiesEnabled = res.loadIcon("tree/properties-enabled.png");
+	private static ImageIcon propertiesDisabled = res.loadIcon("tree/properties-disabled.png");
+	private static ImageIcon propertiesPressed = res.loadIcon("tree/properties-pressed.png");
 	
 	private boolean listEditEnabled;
 	private DTreeTransferHandler<T,U> transferHandler;
