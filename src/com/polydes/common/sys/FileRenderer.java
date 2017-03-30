@@ -8,7 +8,6 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -107,11 +106,12 @@ public class FileRenderer
 	{
 		String[] renderLines = new String[lines];
 		
-		InputStream inputStream;
 		try
-		{
-			inputStream = new FileInputStream(f);
+		(
+			InputStream inputStream = new FileInputStream(f);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+		)
+		{
 			int i = 0;
 			while((renderLines[i++] = reader.readLine()) != null)
 			{
@@ -121,11 +121,7 @@ public class FileRenderer
 
 			reader.close();
 		}
-		catch (FileNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-		catch (IOException e)
+		catch (Exception e)
 		{
 			e.printStackTrace();
 		}

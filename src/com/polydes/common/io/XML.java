@@ -1,14 +1,11 @@
 package com.polydes.common.io;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,8 +18,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -54,12 +49,14 @@ public class XML
 	public static void writeDocument(Document d, String url)
 	{
 		try
-		{
+		(
 			OutputStream out = new FileOutputStream(url);
-			
-			Result result = new StreamResult(new OutputStreamWriter(out, "utf-8"));
+			OutputStreamWriter osr = new OutputStreamWriter(out, "utf-8");
+		)
+		{
+			Result result = new StreamResult(osr);
 			DOMSource source = new DOMSource(d);
-		
+			
 			TransformerFactory factory = TransformerFactory.newInstance();
 			Transformer xformer = factory.newTransformer();
 			xformer.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -67,27 +64,7 @@ public class XML
 			xformer.transform(source, result);
 			out.close();
 		}
-		catch(IllegalArgumentException e)
-		{
-			e.printStackTrace();
-		}
-		catch (FileNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-		catch (UnsupportedEncodingException e)
-		{
-			e.printStackTrace();
-		}
-		catch (TransformerConfigurationException e)
-		{
-			e.printStackTrace();
-		}
-		catch (TransformerException e)
-		{
-			e.printStackTrace();
-		}
-		catch (IOException e)
+		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
@@ -101,11 +78,7 @@ public class XML
 			s = new File(url).toURI().toURL().toString();
 			return FileHelper.readXMLFromFile(s).getDocumentElement();
 		}
-		catch (MalformedURLException e)
-		{
-			e.printStackTrace();
-		}
-		catch (IOException e)
+		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
