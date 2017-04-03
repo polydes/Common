@@ -4,9 +4,11 @@ import static com.polydes.common.util.Lang.asArray;
 import static com.polydes.common.util.Lang.newarray;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -20,7 +22,10 @@ import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.ListCellRenderer;
+import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
+import javax.swing.plaf.basic.BasicListUI;
 
 import com.polydes.common.nodes.Branch;
 import com.polydes.common.nodes.BranchListener;
@@ -158,6 +163,21 @@ public class LeafList<T extends Leaf<T,U>, U extends Branch<T,U>> extends JList<
 		else
 		{
 			return index;
+		}
+	}
+	
+	public static class LeafListUI extends BasicListUI
+	{
+		@SuppressWarnings("rawtypes")
+		@Override
+		protected void paintCell(Graphics g, int row, Rectangle rowBounds, ListCellRenderer cellRenderer,
+				ListModel dataModel, ListSelectionModel selModel, int leadIndex)
+		{
+			Object value = dataModel.getElementAt(row);
+			if(((Leaf) value).getParent() == null)
+				return;
+			
+			super.paintCell(g, row, rowBounds, cellRenderer, dataModel, selModel, leadIndex);
 		}
 	}
 	
