@@ -115,13 +115,21 @@ public class NodeUtils
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static final <T extends Leaf<T,U>, U extends Branch<T,U>> int[] getIndexPath(U parent, T child)
+	public static final <T extends Leaf<T,U>, U extends Branch<T,U>> int[] getIndexPath(U parent, final T child)
 	{
 		ArrayList<T> lookup = new ArrayList<>();
 		lookup.add(child);
+		T nextParent = child;
 		
-		while(child != parent)
-			lookup.add(child = (T) child.getParent());
+		try
+		{
+			while(nextParent != parent)
+				lookup.add(nextParent = (T) nextParent.getParent());
+		}
+		catch(NullPointerException ex)
+		{
+			throw new IllegalStateException(child.getName() + " isn't a child of " + parent.getName(), ex);
+		}
 		
 		int[] path = new int[lookup.size()];
 		path[0] = 0;
