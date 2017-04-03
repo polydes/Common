@@ -170,4 +170,13 @@ public class NodeUtils
 	{
 		System.out.println(StringUtils.join(Lang.mapCA(c, String.class, i -> i.getName()), ','));
 	}
+	
+	@SuppressWarnings("unchecked")
+	public static final <T extends Leaf<T,U>, U extends Branch<T,U>> void emptyBranch(U branch)
+	{
+		for(Object child : branch.getItems().toArray())
+		{
+			branch.removeItem((T) child);
+		}
+	}
 }
