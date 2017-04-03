@@ -267,6 +267,12 @@ public class LeafListSelectionModel<T extends Leaf<T,U>, U extends Branch<T,U>> 
 				}
 			}
 		}
+		if(begin != -1)
+		{
+			ListSelectionEvent event = new ListSelectionEvent(this, begin, i - 1, adjusting);
+			selectionEvents.fire().valueChanged(event);
+			begin = -1;
+		}
 		
 		adjusting = oldAdjusting;
 	}
