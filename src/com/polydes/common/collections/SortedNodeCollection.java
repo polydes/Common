@@ -7,16 +7,12 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import com.polydes.common.nodes.Branch;
 import com.polydes.common.nodes.Leaf;
 import com.polydes.common.nodes.NodeUtils;
 
 public class SortedNodeCollection<T extends Leaf<T,U>, U extends Branch<T,U>> implements Collection<T>
 {
-	private static final Logger log = Logger.getLogger(SortedNodeCollection.class);
-	
 	private List<T> list;
 	private U root;
 	
@@ -57,15 +53,7 @@ public class SortedNodeCollection<T extends Leaf<T,U>, U extends Branch<T,U>> im
 	@Override
 	public boolean contains(Object o)
 	{
-		try
-		{
-			return binarySearch((T) o) >= 0;
-		}
-		catch(IllegalStateException ex)
-		{
-			log.warn(ex.getMessage(), ex);
-			return false;
-		}
+		return binarySearch((T) o) >= 0;
 	}
 
 	@Override
@@ -162,7 +150,14 @@ public class SortedNodeCollection<T extends Leaf<T,U>, U extends Branch<T,U>> im
 	
 	private int binarySearch(T node)
 	{
-		return Collections.binarySearch(list, node, comparator);
+		try
+		{
+			return Collections.binarySearch(list, node, comparator);
+		}
+		catch(IllegalStateException ex)
+		{
+			return -1;
+		}
 	}
 	
 	public class NodeOrderComparator implements Comparator<T>
