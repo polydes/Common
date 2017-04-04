@@ -17,8 +17,6 @@ public class FilePathType extends DataType<String>
 	{
 		super(String.class, "com.polydes.common.FilePath");
 	}
-
-	public static final String ONLY_DIRECTORIES = "onlyDirectories";
 	
 	@Override
 	public DataEditor<String> createEditor(EditorProperties props, PropertiesSheetStyle style)
@@ -59,7 +57,13 @@ public class FilePathType extends DataType<String>
 		
 		public FilePathEditorBuilder onlyDirectories()
 		{
-			props.put(ONLY_DIRECTORIES, true);
+			props.put(FileType.ONLY_DIRECTORIES, true);
+			return this;
+		}
+		
+		public FilePathEditorBuilder startFromSelected()
+		{
+			props.put(FileType.START_FROM_SELECTED, true);
 			return this;
 		}
 	}

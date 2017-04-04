@@ -41,6 +41,7 @@ public class FileType extends DataType<File>
 	public static final String ONLY_DIRECTORIES = "onlyDirectories";
 	public static final String FILTER = "filter";
 	public static final String RENDER_PREVIEW = "renderPreview";
+	public static final String START_FROM_SELECTED = "startFromSelected";
 	
 	@Override
 	public DataEditor<File> createEditor(EditorProperties props, PropertiesSheetStyle style)
@@ -102,6 +103,12 @@ public class FileType extends DataType<File>
 			props.put(FILTER, filter);
 			return this;
 		}
+		
+		public FileEditorBuilder startFromSelected()
+		{
+			props.put(START_FROM_SELECTED, Boolean.TRUE);
+			return this;
+		}
 	}
 	
 	public static class FileEditor extends DataEditor<File>
@@ -117,6 +124,7 @@ public class FileType extends DataType<File>
 		public FileEditor(EditorProperties props, PropertiesSheetStyle style)
 		{
 			boolean onlyDirectories = props.get(ONLY_DIRECTORIES) == Boolean.TRUE;
+			boolean startFromSelected = props.get(START_FROM_SELECTED) == Boolean.TRUE;
 			rootDirectory = props.get(ROOT_DIRECTORY);
 			DualFileFilter filter = props.get(FILTER);
 			
@@ -152,6 +160,8 @@ public class FileType extends DataType<File>
 					fc.setFileFilter(filter);
 					if(root != null)
 						fc.setCurrentDirectory(root);
+					else if(startFromSelected && file != null && file.getParentFile().exists())
+						fc.setCurrentDirectory(file.getParentFile());
 					
 					if(onlyDirectories)
 						fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
