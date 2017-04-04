@@ -571,7 +571,10 @@ public class DarkTree<T extends Leaf<T,U>, U extends Branch<T,U>> extends JPanel
 			if(singleFolderTargeted)
 			{
 				ArrayList<CreatableNodeInfo> createItems = folderModel.getCreatableNodes((U) selection.firstNode());
-				menuItems.add(PopupUtil.menu("Create", PopupUtil.asMenuItems(createItems)));
+				if(!createItems.isEmpty())
+				{
+					menuItems.add(PopupUtil.menu("Create", PopupUtil.asMenuItems(createItems)));
+				}
 			}
 			if(selectionTargeted)
 			{
