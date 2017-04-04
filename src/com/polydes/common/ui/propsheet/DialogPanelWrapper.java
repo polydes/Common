@@ -9,6 +9,7 @@ import stencyl.sw.util.dg.DialogPanel;
 public class DialogPanelWrapper implements PropertiesSheetWrapper
 {
 	private DialogPanel panel;
+	private boolean fieldsAdded = false;
 	
 	public DialogPanelWrapper(DialogPanel panel)
 	{
@@ -23,6 +24,7 @@ public class DialogPanelWrapper implements PropertiesSheetWrapper
 		String hint = newField.getHint();
 		if(hint != null && !hint.isEmpty())
 			panel.addDescriptionRow(hint);
+		fieldsAdded = true;
 	}
 	
 	@Override
@@ -34,14 +36,17 @@ public class DialogPanelWrapper implements PropertiesSheetWrapper
 	@Override
 	public void addHeader(String title)
 	{
-		panel.finishBlock();
+		if(fieldsAdded)
+			panel.finishBlock();
 		panel.addHeader(title);
+		fieldsAdded = false;
 	}
 	
 	@Override
 	public void finish()
 	{
 		panel.finishBlock();
+		fieldsAdded = false;
 	}
 	
 	@Override
