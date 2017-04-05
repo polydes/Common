@@ -1,5 +1,10 @@
 package com.polydes.common.ui.propsheet;
 
+import java.awt.BorderLayout;
+
+import javax.swing.JCheckBox;
+import javax.swing.JPanel;
+
 import com.polydes.common.comp.utils.Layout;
 import com.polydes.common.data.types.DataEditor;
 import com.polydes.common.ui.propsheet.PropertiesSheetSupport.FieldInfo;
@@ -19,12 +24,37 @@ public class DialogPanelWrapper implements PropertiesSheetWrapper
 	@Override
 	public void addField(FieldInfo newField, DataEditor<?> editor)
 	{
-		panel.addGenericRow(newField.getLabel(), Layout.horizontalBox(editor.getComponents()));
+		if(newField.isOptional())
+			panel.addGenericRow(newField.getLabel(), createPanelHider(editor));
+		else
+			panel.addGenericRow(newField.getLabel(), Layout.horizontalBox(editor.getComponents()));
 		
 		String hint = newField.getHint();
 		if(hint != null && !hint.isEmpty())
 			panel.addDescriptionRow(hint);
 		fieldsAdded = true;
+	}
+	
+	private JPanel createPanelHider(DataEditor<?> editor)
+	{
+		JPanel wrapper = new JPanel(new BorderLayout());
+		wrapper.setBackground(null);
+		
+		JCheckBox box = new JCheckBox();
+		box.setBackground(null);
+		box.setSelected(true);
+		
+		JPanel panel = Layout.horizontalBox(editor.getComponents());
+		
+		box.addActionListener(l -> {
+			panel.setVisible(box.isSelected());
+			if(!box.isSelected())
+				editor.setValue(null);
+		});
+		
+		wrapper.add(panel, BorderLayout.CENTER);
+		wrapper.add(box, BorderLayout.WEST);
+		return wrapper;
 	}
 	
 	@Override
