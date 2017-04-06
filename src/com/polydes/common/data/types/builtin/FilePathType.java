@@ -75,6 +75,7 @@ public class FilePathType extends DataType<String>
 		public FilePathEditor(EditorProperties props, PropertiesSheetStyle style)
 		{
 			editor = new FileEditor(props, style);
+			editor.addListener(() -> updated());
 		}
 		
 		@Override
