@@ -18,52 +18,45 @@ import org.apache.log4j.Logger;
 import misc.gfx.GraphicsUtilities;
 import misc.gfx.PunchIconFactory;
 
-public class Resources
+public abstract class Resources
 {
 	private static final Logger log = Logger.getLogger(Resources.class);
 	
-	private static HashMap<String, Object> resourceCache = new HashMap<String, Object>();
+	protected static HashMap<String, Object> resourceCache = new HashMap<String, Object>();
 	
-	private String packageName;
+	protected final String packageName;
 	
-	Resources(String packageName)
+	protected Resources(String packageName)
 	{
-		this.packageName = "/res/" + packageName.replaceAll("\\.", "/") + "/";
+		this.packageName = packageName.replaceAll("\\.", "/") + "/";
 	}
 	
-	public URL getUrl(String name)
-	{
-		return getClass().getResource(packageName + name);
-	}
+	public abstract URL getUrl(String name);
+	public abstract InputStream getUrlStream(String name);
 	
-	public InputStream getUrlStream(String name)
-	{
-		return getClass().getResourceAsStream(packageName + name);
-	}
-
 	public <T> T load(String name, Function<URL, T> constructor)
 	{
-		String url = packageName + name;
+		String key = packageName + name;
 		
 		@SuppressWarnings("unchecked")
-		T result = (T) resourceCache.get(url);
+		T result = (T) resourceCache.get(key);
 		
 		if(result != null)
 		{
 			return result;
 		}
 		
-		URL u = getClass().getResource(url);
+		URL u = getUrl(name);
 		
 		try
 		{
 			result = constructor.apply(u);
-			resourceCache.put(url, result);
+			resourceCache.put(key, result);
 			return result;
 		}
 		catch (Exception e)
 		{
-			log.error("Failed to load resource: " + url, e);
+			log.error("Failed to load resource: " + key, e);
 		}
 		
 		return null;
