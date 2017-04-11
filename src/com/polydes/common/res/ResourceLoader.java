@@ -2,6 +2,7 @@ package com.polydes.common.res;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class ResourceLoader
 {
@@ -12,7 +13,7 @@ public class ResourceLoader
 		if(!resourcePacks.containsKey(packageName))
 		{
 			String packageNameAsPath = packageName.replaceAll("\\.", "/") + "/";
-			String packageNameAsVar = packageName.replaceAll("\\.", "_");
+			String packageNameAsVar = packageName.replaceAll("\\.", "_").toUpperCase(Locale.ENGLISH);
 			
 			String developmentPathLookup = "STENCYL_EXT_DEV_" + packageNameAsVar;
 			
@@ -23,7 +24,7 @@ public class ResourceLoader
 			}
 			else
 			{
-				resourcePacks.put(packageName, new JarResources(packageName, "/res/" + packageNameAsPath));
+				resourcePacks.put(packageName, new JarResources(packageName, "res/" + packageNameAsPath));
 			}
 		}
 		
