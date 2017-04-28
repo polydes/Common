@@ -43,7 +43,7 @@ public class Scenes
 	
 	public static enum Xml
 	{
-		Snippets("snippets", (doc, scene) -> SceneWriter.writeSnippets(doc, scene.getSnippets(), Game.getGame()));
+		Snippets("snippets", (doc, scene) -> SceneWriter.writeSnippets(doc, scene.getSnippets(), Game.getGame(), false));
 		
 		String tag;
 		BiFunction<Document, SceneModel, Element> writer;
