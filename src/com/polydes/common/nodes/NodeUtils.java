@@ -149,6 +149,9 @@ public class NodeUtils
 	public static final <T extends Leaf<T,U>, U extends Branch<T,U>> T getNextSibling(T child)
 	{
 		U parent = child.getParent();
+		if(parent == null)
+			return null;
+		
 		int i = parent.getItems().indexOf(child);
 		if(i == parent.getItems().size() - 1)
 			return null;
@@ -159,6 +162,9 @@ public class NodeUtils
 	public static final <T extends Leaf<T,U>, U extends Branch<T,U>> T getPreviousSibling(T child)
 	{
 		U parent = child.getParent();
+		if(parent == null)
+			return null;
+		
 		int i = parent.getItems().indexOf(child);
 		if(i == 0)
 			return null;
