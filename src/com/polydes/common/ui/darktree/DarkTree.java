@@ -250,7 +250,7 @@ public class DarkTree<T extends Leaf<T,U>, U extends Branch<T,U>> extends JPanel
 		if(newNodeFolder == null)
 			return;
 		newItemButton.setEnabled(newNodeFolder.isFolderCreationEnabled() || newNodeFolder.isItemCreationEnabled());
-		removeItemButton.setEnabled(newNodeFolder.isItemRemovalEnabled());
+		removeItemButton.setEnabled(newNodeFolder.isItemRemovalEnabled() && selection.size() != 0 && selection.firstNode() != root);
 		propertiesButton.setEnabled(newNodeFolder.isItemEditingEnabled() && selection.size() == 1 && selection.firstNode() != root);
 	}
 
@@ -332,7 +332,7 @@ public class DarkTree<T extends Leaf<T,U>, U extends Branch<T,U>> extends JPanel
 	{
 		if (e.getKeyCode() == KeyEvent.VK_DELETE)
 		{
-			if(!listEditEnabled)
+			if(!listEditEnabled || !removeItemButton.isEnabled())
 				return;
 			
 			removeSelected();
