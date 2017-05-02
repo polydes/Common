@@ -14,7 +14,11 @@ public class JarResources extends Resources
 	{
 		super(packageName);
 		
-		cl = SW.get().getExtensionManager().getLoader();
+		ClassLoader resourceLoader = SW.get().getExtensionManager().getLoader();
+		if(resourceLoader == null)
+			resourceLoader = getClass().getClassLoader();
+		cl = resourceLoader;
+		
 		rootPath = packageNameAsPath;
 	}
 	
