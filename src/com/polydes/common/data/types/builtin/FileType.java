@@ -160,7 +160,7 @@ public class FileType extends DataType<File>
 					fc.setFileFilter(filter);
 					if(root != null)
 						fc.setCurrentDirectory(root);
-					else if(startFromSelected && file != null && file.getParentFile().exists())
+					else if(startFromSelected && file != null && file.getParentFile() != null && file.getParentFile().exists())
 						fc.setCurrentDirectory(file.getParentFile());
 					
 					if(onlyDirectories)
