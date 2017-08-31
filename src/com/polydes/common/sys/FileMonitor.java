@@ -22,7 +22,7 @@ public class FileMonitor
 {
 	private static final Logger log = Logger.getLogger(FileMonitor.class);
 	
-	public static final int POLLING_INTERVAL = 5 * 1000;
+	public static final int POLLING_INTERVAL = 1 * 1000;
 	
 	private static FileAlterationObserver observer;
 	private static FileAlterationMonitor monitor;
