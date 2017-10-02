@@ -48,7 +48,7 @@ public abstract class ObjectRegistry<T extends RegistryObject>
 	
 	public void clearRegistry()
 	{
-		for(T object : map.values())
+		for(T object : new ArrayList<>(map.values()))
 			unregisterItem(object);
 	}
 	
@@ -103,7 +103,7 @@ public abstract class ObjectRegistry<T extends RegistryObject>
 	
 	public void dispose()
 	{
-		for(T t : map.values())
+		for(T t : new ArrayList<>(map.values()))
 			unregisterItem(t);
 		map.clear();
 		unknownValues.clear();
