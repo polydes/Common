@@ -201,12 +201,17 @@ public class DarkTree<T extends Leaf<T,U>, U extends Branch<T,U>> extends JPanel
 	
 	public void refreshDisplay()
 	{
-		revalidate();
-		repaint();
-		
-//		TreeSelectionModel model = tree.getSelectionModel();
-//		((AbstractLayoutCache) model.getRowMapper()).invalidateSizes();
-	    tree.treeDidChange();
+		SwingUtilities.invokeLater(() -> {
+			if(tree != null)
+			{
+				revalidate();
+				repaint();
+				
+//				TreeSelectionModel model = tree.getSelectionModel();
+//				((AbstractLayoutCache) model.getRowMapper()).invalidateSizes();
+			    tree.treeDidChange();
+			}
+		});
 	}
 	
 	public void expand(U branch)
