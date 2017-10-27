@@ -78,7 +78,7 @@
 		<echo message="Compiling sources -> ${srcpath}" />
 		<echo message="Using classpath -> ${clspath}" />
 		
-		<javac source="1.8" target="1.8" srcdir="${srcpath}" destdir="${this.build}" debug="on">
+		<javac source="1.8" target="1.8" srcdir="${srcpath}" destdir="${this.build}" debug="on" fork="true">
 			<classpath>
 				<pathelement path="${clspath}" />
 				<path refid="compile.libs" if:true="${usinglibs}" />
