@@ -3,6 +3,8 @@ package com.polydes.common.res;
 import java.io.InputStream;
 import java.net.URL;
 
+import stencyl.sw.SW;
+
 public class JarResources extends Resources
 {
 	private final ClassLoader cl;
@@ -12,7 +14,14 @@ public class JarResources extends Resources
 	{
 		super(packageName);
 		
-		cl = getClass().getClassLoader();
+		if(SW.isInitialized())
+		{
+			cl = SW.get().getExtensionManager().getLoader();
+		}
+		else
+		{
+			cl = getClass().getClassLoader();
+		}
 		
 		rootPath = packageNameAsPath;
 	}
