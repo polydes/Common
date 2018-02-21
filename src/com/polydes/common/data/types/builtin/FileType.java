@@ -1,5 +1,6 @@
 package com.polydes.common.data.types.builtin;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
 import java.io.FilenameFilter;
@@ -18,6 +19,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.polydes.common.comp.RenderedPanel;
+import com.polydes.common.comp.utils.DocumentAdapter;
 import com.polydes.common.data.types.DataEditor;
 import com.polydes.common.data.types.DataEditorBuilder;
 import com.polydes.common.data.types.DataType;
@@ -118,12 +120,13 @@ public class FileType extends DataType<File>
 		
 		final JTextField pathField;
 		final RenderedPanel rendered;
+		boolean fileDialogEvent;
 		
 		String rootDirectory;
 		
 		public FileEditor(EditorProperties props, PropertiesSheetStyle style)
 		{
-			boolean onlyDirectories = props.get(ONLY_DIRECTORIES) == Boolean.TRUE;
+			final boolean onlyDirectories = props.get(ONLY_DIRECTORIES) == Boolean.TRUE;
 			boolean startFromSelected = props.get(START_FROM_SELECTED) == Boolean.TRUE;
 			rootDirectory = props.get(ROOT_DIRECTORY);
 			DualFileFilter filter = props.get(FILTER);
@@ -174,17 +177,38 @@ public class FileType extends DataType<File>
 					
 					int returnVal = fc.showDialog(SW.get(), "Choose");
 				    
-					if(returnVal == JFileChooser.APPROVE_OPTION) 
+					if(returnVal == JFileChooser.APPROVE_OPTION)
+					{
 						file = fc.getSelectedFile();
+						fileDialogEvent = true;
+						updateFileInfo();
+						fileDialogEvent = false;
+						updated();
+					}
 //				}
-				
-				updateFileInfo();
-				updated();
 			});
 			
 			boolean isRendered = props.get(RENDER_PREVIEW) == Boolean.TRUE;
 			pathField = isRendered ? null : style.createTextField();
 			rendered = isRendered ? new RenderedPanel(90, 60, 0) : null;
+			
+			if(pathField != null)
+			{
+				pathField.getDocument().addDocumentListener(new DocumentAdapter(false)
+				{
+					Color fg = pathField.getForeground();
+					
+					@Override
+					protected void update()
+					{
+						File f = new File(pathField.getText());
+						boolean valid = onlyDirectories ? f.isDirectory() : f.exists();
+						if(valid && !fileDialogEvent)
+							updated();
+						pathField.setForeground(valid ? fg : Color.RED);
+					}
+				});
+			}
 		}
 		
 		@Override
