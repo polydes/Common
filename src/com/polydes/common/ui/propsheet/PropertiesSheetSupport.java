@@ -19,8 +19,8 @@ public class PropertiesSheetSupport
 	private final PropertyChangeSupport pcs;
 	private final PropertiesSheetBuilder builder;
 	
-	private boolean usesMap;
 	private final Object model;
+	private Map<String, Object> proxy;
 	
 	public PropertiesSheetSupport(DialogPanel panel, Object model)
 	{
@@ -35,7 +35,6 @@ public class PropertiesSheetSupport
 		builder = new PropertiesSheetBuilder(this, wrapper, style);
 		
 		this.model = model;
-		usesMap = model instanceof Map;
 	}
 	
 	public void run()
@@ -45,6 +44,17 @@ public class PropertiesSheetSupport
 			.field("myBool")._boolean().add()
 			.field("myString")._string().expandingEditor().regex("").add()
 			.finish();
+	}
+	
+	/**
+	 * Write realtime data changes to an intermediate map instead of the data model.<br/>
+	 * Use {@code applyChanges()} to save changes when finished.<br/><br/>
+	 * 
+	 * This should be called before any fields are added.
+	 */
+	public void useProxy()
+	{
+		proxy = new HashMap<>();
 	}
 	
 	public PropertiesSheetBuilder build()
@@ -60,11 +70,17 @@ public class PropertiesSheetSupport
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	public void fieldAdded(final FieldInfo field, DataEditor editor)
 	{
+		final Object target = proxy != null ? proxy : model;
+		
 		fields.put(field.varname, field);
 		field.oldValue = readField(model, field.varname);
 		field.editor = editor;
 		editor.setValue(field.oldValue);
-		editor.addListener(() -> writeField(model, field.getVarname(), editor.getValue()));		
+		
+		if(proxy != null)
+			proxy.put(field.varname, field.oldValue);
+		
+		editor.addListener(() -> writeField(target, field.getVarname(), editor.getValue()));
 	}
 	
 	public FieldInfo getField(String varname)
@@ -82,21 +98,50 @@ public class PropertiesSheetSupport
 	{
 		((DataEditor) fields.get(varname).editor).setValue(value);
 	}
+	
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public void refreshField(String varname)
+	{
+		((DataEditor) fields.get(varname).editor).setValue(readField(model, varname));
+	}
 
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	public void changeField(String varname, FieldInfo field, DataEditor editor)
 	{
+		final Object target = proxy != null ? proxy : model;
+		
 		fields.remove(varname).editor.dispose();
 		fields.put(varname, field);
 		field.editor = editor;
-		editor.addListener(() -> writeField(model, field.getVarname(), editor.getValue()));
-		editor.setValue(readField(model, field.varname));
+		editor.addListener(() -> writeField(target, field.getVarname(), editor.getValue()));
+		editor.setValue(readField(target, field.varname));
 	}
 	
+	/**
+	 * If useProxy was not called, changes are applied to the model immediately.<br/>
+	 * This can be used to undo changes.<br/><br/>
+	 * 
+	 * It also sends editors back to their initial state.
+	 */
 	public void revertChanges()
 	{
 		for(FieldInfo field : fields.values())
 			writeField(model, field.varname, field.oldValue);
+	}
+	
+	/**
+	 * If useProxy was called, this method is used to actually apply the changes when editing is finished.
+	 */
+	public void applyChanges()
+	{
+		for(FieldInfo field : fields.values())
+			writeField(model, field.varname, proxy.get(field.varname));
+	}
+	
+	public void refreshAllFields()
+	{
+		for(FieldInfo field : fields.values())
+			refreshField(field.varname);
 	}
 	
 	public void dispose()
@@ -105,6 +150,7 @@ public class PropertiesSheetSupport
 			field.editor.dispose();
 		fields.clear();
 		wrapper.dispose();
+		proxy = null;
 	}
 	
 	public static class FieldInfo
@@ -184,7 +230,7 @@ public class PropertiesSheetSupport
 	@SuppressWarnings("rawtypes")
 	public Object readField(Object target, String fieldName)
 	{
-		if(usesMap)
+		if(target instanceof Map)
 			return ((Map) target).get(fieldName);
 		try
 		{
@@ -202,7 +248,7 @@ public class PropertiesSheetSupport
 		try
 		{
 			Object oldValue = readField(target, fieldName);
-			if(usesMap)
+			if(target instanceof Map)
 				((Map) target).put(fieldName, value);
 			else
 				FieldUtils.writeDeclaredField(target, fieldName, value, true);
