@@ -204,7 +204,10 @@ public class FileType extends DataType<File>
 						File f = new File(pathField.getText());
 						boolean valid = onlyDirectories ? f.isDirectory() : f.exists();
 						if(valid && !fileDialogEvent)
+						{
+							file = f;
 							updated();
+						}
 						pathField.setForeground(valid ? fg : Color.RED);
 					}
 				});
