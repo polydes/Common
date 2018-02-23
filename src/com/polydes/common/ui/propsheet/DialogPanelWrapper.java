@@ -31,7 +31,7 @@ public class DialogPanelWrapper implements PropertiesSheetWrapper
 		
 		String hint = newField.getHint();
 		if(hint != null && !hint.isEmpty())
-			panel.addDescriptionRow(hint);
+			panel.addDescriptionNoSpace(hint);
 		fieldsAdded = true;
 	}
 	
