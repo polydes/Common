@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
@@ -44,6 +45,7 @@ public class FileType extends DataType<File>
 	public static final String FILTER = "filter";
 	public static final String RENDER_PREVIEW = "renderPreview";
 	public static final String START_FROM_SELECTED = "startFromSelected";
+	public static final String VALIDATION_FUNCTION = "validationFunction";
 	
 	@Override
 	public DataEditor<File> createEditor(EditorProperties props, PropertiesSheetStyle style)
@@ -111,6 +113,12 @@ public class FileType extends DataType<File>
 			props.put(START_FROM_SELECTED, Boolean.TRUE);
 			return this;
 		}
+		
+		public FileEditorBuilder validate(Predicate<File> validationFunction)
+		{
+			props.put(VALIDATION_FUNCTION, validationFunction);
+			return this;
+		}
 	}
 	
 	public static class FileEditor extends DataEditor<File>
@@ -123,6 +131,7 @@ public class FileType extends DataType<File>
 		boolean fileDialogEvent;
 		
 		String rootDirectory;
+		Predicate<File> validationFunction;
 		
 		public FileEditor(EditorProperties props, PropertiesSheetStyle style)
 		{
@@ -130,6 +139,7 @@ public class FileType extends DataType<File>
 			boolean startFromSelected = props.get(START_FROM_SELECTED) == Boolean.TRUE;
 			rootDirectory = props.get(ROOT_DIRECTORY);
 			DualFileFilter filter = props.get(FILTER);
+			validationFunction = props.get(VALIDATION_FUNCTION);
 			
 			button = new GroupButton(4);
 			button.setText("Choose");
@@ -203,6 +213,8 @@ public class FileType extends DataType<File>
 					{
 						File f = new File(pathField.getText());
 						boolean valid = onlyDirectories ? f.isDirectory() : f.exists();
+						if(validationFunction != null)
+							valid = valid && validationFunction.test(f);
 						if(valid && !fileDialogEvent)
 						{
 							file = f;

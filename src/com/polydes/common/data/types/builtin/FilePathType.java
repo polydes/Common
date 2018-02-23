@@ -1,6 +1,7 @@
 package com.polydes.common.data.types.builtin;
 
 import java.io.File;
+import java.util.function.Predicate;
 
 import javax.swing.JComponent;
 
@@ -64,6 +65,12 @@ public class FilePathType extends DataType<String>
 		public FilePathEditorBuilder startFromSelected()
 		{
 			props.put(FileType.START_FROM_SELECTED, true);
+			return this;
+		}
+		
+		public FilePathEditorBuilder validate(Predicate<File> validationFunction)
+		{
+			props.put(FileType.VALIDATION_FUNCTION, validationFunction);
 			return this;
 		}
 	}
