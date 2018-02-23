@@ -42,7 +42,7 @@ public class Types extends ObjectRegistry<DataType<?>>
 	
 	public static ColorType _Color = new ColorType();
 	public static IControlType _Control = new IControlType();
-	public static SelectionType _Selection = new SelectionType();
+	@Deprecated	public static SelectionType _Selection = new SelectionType();
 	public static SetType _Set = new SetType();
 	
 	public static EnumType _Enum = new EnumType();

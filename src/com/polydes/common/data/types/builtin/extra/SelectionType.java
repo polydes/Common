@@ -21,6 +21,7 @@ import com.polydes.common.data.types.DataType;
 import com.polydes.common.data.types.EditorProperties;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
+@Deprecated
 public class SelectionType extends DataType<String>
 {
 	public SelectionType()

@@ -18,7 +18,8 @@ import com.polydes.common.data.types.builtin.basic.BoolType.BoolEditorBuilder;
 import com.polydes.common.data.types.builtin.basic.FloatType.FloatEditorBuilder;
 import com.polydes.common.data.types.builtin.basic.IntType.IntEditorBuilder;
 import com.polydes.common.data.types.builtin.basic.StringType.StringEditorBuilder;
-import com.polydes.common.data.types.builtin.extra.SelectionType.SelectionEditorBuilder;
+import com.polydes.common.data.types.builtin.extra.MappedSelectionType;
+import com.polydes.common.data.types.builtin.extra.MappedSelectionType.MappedSelectionEditorBuilder;
 import com.polydes.common.data.types.builtin.extra.SetType.SetEditorBuilder;
 import com.polydes.common.ui.propsheet.PropertiesSheetSupport.FieldInfo;
 
@@ -215,10 +216,11 @@ public class PropertiesSheetBuilder
 //			return Types._Control.new ControlEditorBuilder().setSheetBuilder(sheetBuilder);
 //		}
 		
-		public SelectionEditorBuilder _selection()
+		public <T> MappedSelectionEditorBuilder<T> _selection(DataType<T> type)
 		{
-			this.type = Types._Selection;
-			return Types._Selection.new SelectionEditorBuilder().setSheetBuilder(sheetBuilder);
+			MappedSelectionType<T> st = new MappedSelectionType<T>(type);
+			this.type = st;
+			return new MappedSelectionEditorBuilder<T>(st).setSheetBuilder(sheetBuilder);
 		}
 		
 		public SetEditorBuilder _set()
