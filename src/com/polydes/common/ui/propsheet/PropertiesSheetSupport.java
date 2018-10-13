@@ -130,6 +130,18 @@ public class PropertiesSheetSupport
 	}
 	
 	/**
+	 * If useProxy was called, this method returns true if there are unsaved changes.
+	 */
+	public boolean isDirty()
+	{
+		for(FieldInfo field : fields.values())
+			if(!proxy.get(field.varname).equals(readField(model, field.varname)))
+				return true;
+		
+		return false;
+	}
+	
+	/**
 	 * If useProxy was called, this method is used to actually apply the changes when editing is finished.
 	 */
 	public void applyChanges()
