@@ -25,14 +25,21 @@ public class FilePreviewer
 {
 	public static JPanel getPreview(SysFile f)
 	{
-		String type = Mime.get(f.getFile());
 		JComponent toPreview = null;
 		
-		if(type.startsWith("image"))
+		switch(Mime.getType(f.getFile()))
+		{
+		case IMAGE:
 			toPreview = buildImagePreview(f.getFile());
-		else if(type.startsWith("text") || type.equals("application/octet-stream"))
+			break;
+		case TEXT: case BINARY:
 			toPreview = buildTextPreview(f.getFile());
-		
+			break;
+		default:
+			toPreview = null;
+			break;
+		}
+			
 		if(toPreview != null)
 		{
 			DisabledPanel previewPanel = new DisabledPanel(toPreview);

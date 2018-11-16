@@ -2,27 +2,10 @@ package com.polydes.common.sys;
 
 import java.io.File;
 
-import javax.activation.MimetypesFileTypeMap;
+import org.apache.commons.io.FilenameUtils;
 
 public class Mime
 {
-	public static MimetypesFileTypeMap typemap = new MimetypesFileTypeMap();
-	
-	static
-	{
-		typemap.addMimeTypes("text/plain txt");
-		typemap.addMimeTypes("text/xml xml");
-		typemap.addMimeTypes("application/json json");
-		typemap.addMimeTypes("image/png png");
-		typemap.addMimeTypes("audio/mpeg3 mp3");
-		typemap.addMimeTypes("audio/ogg ogg");
-	}
-	
-	public static String get(File f)
-	{
-		return typemap.getContentType(f);
-	}
-	
 	public enum BasicType
 	{
 		TEXT,
@@ -33,22 +16,13 @@ public class Mime
 	
 	public static BasicType getType(File f)
 	{
-		String type = get(f);
-		if(type.startsWith("text") || type.equals("application/json"))
+		String extension = FilenameUtils.getExtension(f.getName());
+		switch(extension)
 		{
-			return BasicType.TEXT;
-		}
-		else if(type.startsWith("image"))
-		{
-			return BasicType.IMAGE;
-		}
-		else if(type.startsWith("audio"))
-		{
-			return BasicType.AUDIO;
-		}
-		else
-		{
-			return BasicType.BINARY;
+			case "mp3": case "ogg": return BasicType.AUDIO;
+			case "png": return BasicType.IMAGE;
+			case "txt": case "json": case "xml": return BasicType.TEXT;
+			default: return BasicType.BINARY;
 		}
 	}
 }

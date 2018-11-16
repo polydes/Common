@@ -8,6 +8,8 @@ import java.util.Collection;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
+import org.apache.commons.lang3.NotImplementedException;
+
 import com.polydes.common.comp.RenderedPanel;
 import com.polydes.common.comp.UpdatingCombo;
 import com.polydes.common.data.types.DataEditor;
@@ -31,7 +33,6 @@ import stencyl.sw.editors.snippet.vars.FontChooser;
 import stencyl.sw.editors.snippet.vars.SceneChooser;
 import stencyl.sw.editors.snippet.vars.SoundChooser;
 import stencyl.sw.util.comp.GroupButton;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class StencylResourceType<T extends AbstractResource> extends DataType<T>
 {
@@ -138,7 +139,7 @@ public class StencylResourceType<T extends AbstractResource> extends DataType<T>
 		public RenderedResourceChooser()
 		{
 			if(stencylResourceType == ResourceTypes.tileset)
-				throw new NotImplementedException();
+				throw new NotImplementedException("RenderedResourceChooser not implemented for Tileset resources.");
 			
 			panel = new RenderedPanel(90, 60, 0);
 			

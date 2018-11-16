@@ -17,6 +17,7 @@ import javax.swing.ImageIcon;
 
 import com.polydes.common.res.ResourceLoader;
 import com.polydes.common.res.Resources;
+import com.polydes.common.sys.Mime.BasicType;
 
 import misc.gfx.GraphicsUtilities;
 import stencyl.sw.util.gfx.ImageUtil;
@@ -60,13 +61,13 @@ public class FileRenderer
 	
 	public static ImageIcon generateThumb(File file)
 	{
-		String type = Mime.get(file);
+		Mime.BasicType type = Mime.getType(file);
 		
 		if(file.isDirectory())
 			return folderThumb;
-		else if(type.startsWith("image"))
+		else if(type == BasicType.IMAGE)
 			return generateImageThumb(file);
-		else if (type.startsWith("text") || type.equals("application/octet-stream"))
+		else if (type == BasicType.TEXT || type == BasicType.BINARY)
 			return generateTextThumb(file);
 		else
 			return fileThumb;
