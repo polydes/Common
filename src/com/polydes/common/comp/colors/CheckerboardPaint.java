@@ -1,6 +1,5 @@
 package com.polydes.common.comp.colors;
 
-import java.awt.Color;
 import java.awt.Paint;
 import java.awt.PaintContext;
 import java.awt.Point;
@@ -12,9 +11,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.ColorModel;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
-import java.util.Arrays;
-
-import sun.awt.image.IntegerComponentRaster;
 
 public class CheckerboardPaint implements Paint
 {
@@ -81,11 +77,14 @@ public class CheckerboardPaint implements Paint
 				w = 32 + pixelSize * 2;
 				h = 32 + pixelSize * 2;
 				
-				int gray = new Color(0xbfbfbf).getRGB();
+				int[] gray = new int[] {0xBF, 0xBF, 0xBF, 0xFF};
+				int[] white = new int[] {0xFF, 0xFF, 0xFF, 0xFF};
 				
 				t = getColorModel().createCompatibleWritableRaster(w, h);
-				IntegerComponentRaster icr = (IntegerComponentRaster) t;
-				Arrays.fill(icr.getDataStorage(), Color.WHITE.getRGB());
+				
+				for(int x1 = 0; x1 < w; ++x1)
+					for(int y1 = 0; y1 < h; ++y1)
+						t.setPixel(x1, y1, white);
 				
 				int xstart;
 				
@@ -109,10 +108,8 @@ public class CheckerboardPaint implements Paint
 						if(to > w)
 							to = w;
 						
-						from += (y1 - y) * w;
-						to += (y1 - y) * w;
-						
-						Arrays.fill(icr.getDataStorage(), from, to, gray);
+						for(int _x = from; _x < to; ++_x)
+							t.setPixel(_x, y1, gray);
 					}
 				}
 				

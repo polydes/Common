@@ -17,7 +17,6 @@ import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.function.Function;
 
-import javax.activation.ActivationDataFlavor;
 import javax.swing.BorderFactory;
 import javax.swing.DropMode;
 import javax.swing.ImageIcon;
@@ -412,8 +411,14 @@ public class DataListEditor extends JPanel implements KeyListener, MouseListener
 	
 	public static class DataListTransferable implements Transferable
 	{
-		public static final DataFlavor dataListRowFlavor =
-				new ActivationDataFlavor(Integer.class, DataFlavor.javaJVMLocalObjectMimeType, "Data List Row Indices");
+		public static final DataFlavor dataListRowFlavor;
+		static {
+			String mimeType = DataFlavor.javaJVMLocalObjectMimeType
+				+ ";class=\""
+				+ Integer[].class.getName()
+				+ "\"";
+			dataListRowFlavor = new DataFlavor(mimeType, "Data List Row Indices");
+		}
 		
 		DataFlavor[] flavors;
 		DataListRowTransfer data;
