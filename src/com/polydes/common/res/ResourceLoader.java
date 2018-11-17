@@ -30,4 +30,9 @@ public class ResourceLoader
 		
 		return resourcePacks.get(packageName);
 	}
+	
+	public static void loadResourcesFromFilesystem(String packageName, File location)
+	{
+		resourcePacks.put(packageName, new FilesystemResources(packageName, location));
+	}
 }
