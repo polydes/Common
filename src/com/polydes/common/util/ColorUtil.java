@@ -27,12 +27,22 @@ public class ColorUtil
 	
 	public static String encode(Color c)
 	{
-		return "#" + hex(c.getAlpha(), 2) + hex(c.getRed(), 2) + hex(c.getGreen(), 2) + hex(c.getBlue(), 2);
+		return encode(c, "#");
 	}
 	
 	public static String encode24(Color c)
 	{
-		return "#" + hex(c.getRed(), 2) + hex(c.getGreen(), 2) + hex(c.getBlue(), 2);
+		return encode24(c, "#");
+	}
+	
+	public static String encode(Color c, String prefix)
+	{
+		return prefix + hex(c.getAlpha(), 2) + hex(c.getRed(), 2) + hex(c.getGreen(), 2) + hex(c.getBlue(), 2);
+	}
+	
+	public static String encode24(Color c, String prefix)
+	{
+		return prefix + hex(c.getRed(), 2) + hex(c.getGreen(), 2) + hex(c.getBlue(), 2);
 	}
 	
 	public static String hex(int i, int places)
