@@ -20,7 +20,7 @@ public class Mime
 		switch(extension)
 		{
 			case "mp3": case "ogg": return BasicType.AUDIO;
-			case "png": return BasicType.IMAGE;
+			case "png": case "jpg": case "jpeg": return BasicType.IMAGE;
 			case "txt": case "json": case "xml": return BasicType.TEXT;
 			default: return BasicType.BINARY;
 		}

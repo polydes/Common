@@ -95,7 +95,10 @@ public class FilePathType extends DataType<String>
 		@Override
 		protected void set(String s)
 		{
-			editor.setValue(new File(s));
+			if(s == null || s.isEmpty())
+				editor.setValue(null);
+			else
+				editor.setValue(new File(s));
 		}
 
 		@Override
