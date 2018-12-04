@@ -197,12 +197,6 @@ public class TreePage<T extends Leaf<T,U>, U extends Branch<T,U>> extends JPanel
 	public void dispose()
 	{
 		removeAll();
-		if(folderModel.getRootBranch() != null)
-		{
-			//this one may already be disposed by another class claiming ownership over it.
-			//this really needs to be cleaned up.
-			folderModel.dispose();
-		}
 		tree.dispose();
 		folderModel = null;
 		tree = null;
