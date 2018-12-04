@@ -253,4 +253,17 @@ public class FileMonitor
 		
 		fileCache.clear();
 	}
+
+	public static void dispose()
+	{
+		if(observer != null)
+		{
+			unregister();
+		}
+		if(model != null)
+		{
+			model.dispose();
+			model = null;
+		}
+	}
 }
