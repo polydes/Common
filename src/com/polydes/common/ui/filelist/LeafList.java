@@ -82,7 +82,10 @@ public class LeafList<T extends Leaf<T,U>, U extends Branch<T,U>> extends JList<
 				if(singleFolderTargeted)
 				{
 					ArrayList<CreatableNodeInfo> createItems = folderModel.getCreatableNodes(folder);
-					menuItems.add(PopupUtil.menu("Create", PopupUtil.asMenuItems(createItems)));
+					if(!createItems.isEmpty())
+					{
+						menuItems.add(PopupUtil.menu("Create", PopupUtil.asMenuItems(createItems)));
+					}
 				}
 				if(selectionTargeted)
 				{

@@ -116,7 +116,9 @@ public class HierarchyModel<T extends Leaf<T,U>, U extends Branch<T,U>> implemen
 		ArrayList<CreatableNodeInfo> items = new ArrayList<CreatableNodeInfo>();
 		if(creationFolder.isFolderCreationEnabled())
 			items.add(NodeCreator.folderInfo);
-		items.addAll(nodeCreator.getCreatableNodeList(creationFolder));
+		ArrayList<CreatableNodeInfo> creatableNodes = nodeCreator.getCreatableNodeList(creationFolder);
+		if(creatableNodes != null)
+			items.addAll(creatableNodes);
 		return items;
 	}
 
