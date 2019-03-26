@@ -26,7 +26,7 @@ public class NodeUtils
 	{
 		if(item instanceof Branch)
 			for(T curItem : ((U) item).getItems())
-				recursiveRun(curItem, runnable);
+				recursiveRunPost(curItem, runnable);
 		runnable.run(item);
 	}
 	
@@ -61,6 +61,7 @@ public class NodeUtils
 		return d;
 	}
 	
+	@SuppressWarnings("unlikely-arg-type")
 	public static final <T extends Leaf<T,U>, U extends Branch<T,U>> void removeNodesWithContainedParents(Collection<T> list)
 	{
 		HashSet<T> nodeSet = new HashSet<T>(list);
