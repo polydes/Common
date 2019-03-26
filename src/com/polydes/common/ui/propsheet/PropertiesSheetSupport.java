@@ -21,6 +21,7 @@ public class PropertiesSheetSupport
 	
 	private final Object model;
 	private Map<String, Object> proxy;
+	private boolean declaredFieldsOnly = false;
 	
 	public PropertiesSheetSupport(DialogPanel panel, Object model)
 	{
@@ -55,6 +56,11 @@ public class PropertiesSheetSupport
 	public void useProxy()
 	{
 		proxy = new HashMap<>();
+	}
+	
+	public void useDeclaredFieldsOnly()
+	{
+		declaredFieldsOnly = true;
 	}
 	
 	public PropertiesSheetBuilder build()
@@ -246,7 +252,9 @@ public class PropertiesSheetSupport
 			return ((Map) target).get(fieldName);
 		try
 		{
-			return FieldUtils.readDeclaredField(target, fieldName, true);
+			return declaredFieldsOnly ?
+				FieldUtils.readDeclaredField(target, fieldName, true) :
+				FieldUtils.readField(target, fieldName, true);
 		}
 		catch(IllegalAccessException e)
 		{
@@ -262,8 +270,10 @@ public class PropertiesSheetSupport
 			Object oldValue = readField(target, fieldName);
 			if(target instanceof Map)
 				((Map) target).put(fieldName, value);
-			else
+			else if(declaredFieldsOnly)
 				FieldUtils.writeDeclaredField(target, fieldName, value, true);
+			else
+				FieldUtils.writeField(target, fieldName, value, true);
 			pcs.firePropertyChange(fieldName, oldValue, value);
 		}
 		catch(IllegalAccessException e)
