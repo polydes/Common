@@ -67,6 +67,11 @@ public class UpdatingCombo<T> extends JComboBox<T>
 		model.setComparator(comparator);
 	}
 	
+	public void refresh()
+	{
+		model.listUpdated();
+	}
+	
 	@SuppressWarnings("unchecked")
 	public void setIconProvider(Function<T, ImageIcon> provider)
 	{

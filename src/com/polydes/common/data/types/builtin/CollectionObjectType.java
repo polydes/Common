@@ -108,5 +108,10 @@ public class CollectionObjectType extends DataType<Object>
 			super.dispose();
 			combo.dispose();
 		}
+		
+		public void refresh()
+		{
+			combo.refresh();
+		}
 	}
 }
