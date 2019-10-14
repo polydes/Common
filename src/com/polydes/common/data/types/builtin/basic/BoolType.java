@@ -46,7 +46,7 @@ public class BoolType extends DataType<Boolean>
 	@Override
 	public Boolean copy(Boolean t)
 	{
-		return new Boolean(t);
+		return t;
 	}
 	
 	public class BoolEditorBuilder extends DataEditorBuilder

@@ -92,7 +92,7 @@ public class FloatType extends DataType<Float>
 	@Override
 	public Float copy(Float t)
 	{
-		return new Float(t);
+		return t;
 	}
 	
 	public class FloatEditorBuilder extends DataEditorBuilder

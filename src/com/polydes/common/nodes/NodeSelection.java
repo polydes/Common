@@ -207,10 +207,10 @@ public class NodeSelection<T extends Leaf<T,U>, U extends Branch<T,U>> implement
 		if(nodes.isEmpty())
 		{
 			nodes.add((T) root);
-			if(!additions.contains(root))
+			if(!additions.contains((T) root))
 				additions.add((T) root);
-			if(removals.contains(root))
-				removals.remove(root);
+			if(removals.contains((T) root))
+				removals.remove((T) root);
 		}
 		
 		int folderCounter = 0;

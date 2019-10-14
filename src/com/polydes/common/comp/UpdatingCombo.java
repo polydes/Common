@@ -72,7 +72,6 @@ public class UpdatingCombo<T> extends JComboBox<T>
 		model.listUpdated();
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void setIconProvider(Function<T, ImageIcon> provider)
 	{
 		setRenderer(new IconComboCellRenderer<T>(provider));

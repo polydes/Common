@@ -90,7 +90,7 @@ public class IntType extends DataType<Integer>
 	@Override
 	public Integer copy(Integer t)
 	{
-		return new Integer(t);
+		return t;
 	}
 	
 	public static enum Editor

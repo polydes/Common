@@ -171,7 +171,7 @@ public class LeafList<T extends Leaf<T,U>, U extends Branch<T,U>> extends JList<
 	
 	public static class LeafListUI extends BasicListUI
 	{
-		@SuppressWarnings("rawtypes")
+		@SuppressWarnings({"rawtypes", "unchecked"})
 		@Override
 		protected void paintCell(Graphics g, int row, Rectangle rowBounds, ListCellRenderer cellRenderer,
 				ListModel dataModel, ListSelectionModel selModel, int leadIndex)

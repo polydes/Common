@@ -36,7 +36,6 @@ public class FilePreviewer
 			toPreview = buildTextPreview(f.getFile());
 			break;
 		default:
-			toPreview = null;
 			break;
 		}
 			

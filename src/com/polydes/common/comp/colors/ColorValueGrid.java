@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-@SuppressWarnings("serial")
 public class ColorValueGrid extends JPanel implements MouseListener, MouseMotionListener
 {
 	public float xValue;

@@ -68,6 +68,7 @@ public class HierarchyModel<T extends Leaf<T,U>, U extends Branch<T,U>> implemen
 		});
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void installListeners(T installRoot)
 	{
 		NodeUtils.recursiveRun(installRoot, (T leaf) -> {
@@ -77,6 +78,7 @@ public class HierarchyModel<T extends Leaf<T,U>, U extends Branch<T,U>> implemen
 		});
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void uninstallListeners(T uninstallRoot)
 	{
 		NodeUtils.recursiveRun(uninstallRoot, (T leaf) -> {

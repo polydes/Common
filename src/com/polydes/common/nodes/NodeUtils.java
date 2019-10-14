@@ -61,7 +61,7 @@ public class NodeUtils
 		return d;
 	}
 	
-	@SuppressWarnings("unlikely-arg-type")
+	@SuppressWarnings("unchecked")
 	public static final <T extends Leaf<T,U>, U extends Branch<T,U>> void removeNodesWithContainedParents(Collection<T> list)
 	{
 		HashSet<T> nodeSet = new HashSet<T>(list);
@@ -73,7 +73,7 @@ public class NodeUtils
 			U parent = node.getParent();
 			while(parent != null)
 			{
-				if(nodeSet.contains(parent))
+				if(nodeSet.contains((T) parent))
 				{
 					toRemove.add(node);
 					continue nodeIter;

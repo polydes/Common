@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-@SuppressWarnings("serial")
 public class AlphaValueSlider extends ColorValueSlider
 {
 	private CheckerboardPaint checkerboard;

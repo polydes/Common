@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-@SuppressWarnings("serial")
 public class ColorValueSlider extends JPanel implements MouseListener, MouseMotionListener
 {
 	public float value;
