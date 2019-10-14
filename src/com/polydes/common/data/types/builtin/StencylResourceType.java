@@ -24,14 +24,10 @@ import stencyl.core.lib.Game;
 import stencyl.core.lib.Resource;
 import stencyl.core.lib.ResourceType;
 import stencyl.core.lib.ResourceTypes;
-import stencyl.core.lib.scene.SceneModel;
 import stencyl.sw.app.TaskManager;
 import stencyl.sw.editors.behavior.SnippetChooser;
 import stencyl.sw.editors.scene.dialogs.BackgroundChooser;
-import stencyl.sw.editors.snippet.vars.ActorChooser;
-import stencyl.sw.editors.snippet.vars.FontChooser;
-import stencyl.sw.editors.snippet.vars.SceneChooser;
-import stencyl.sw.editors.snippet.vars.SoundChooser;
+import stencyl.sw.editors.snippet.vars.AbstractResourceChooser;
 import stencyl.sw.util.comp.GroupButton;
 
 public class StencylResourceType<T extends AbstractResource> extends DataType<T>
@@ -105,14 +101,7 @@ public class StencylResourceType<T extends AbstractResource> extends DataType<T>
 	@SuppressWarnings("unchecked")
 	public Collection<T> getList()
 	{
-		Collection<?> list =
-			stencylResourceType == ResourceTypes.scene ?
-			Game.getGame().getScenes() :
-				stencylResourceType == ResourceTypes.snippet ?
-				Game.getGame().getSnippets() :
-					Game.getGame().getResources().getResourcesByType((Class<Resource>) javaType);
-		
-		return (Collection<T>) list;
+		return (Collection<T>) Game.getGame().getResourcesForResourceType(stencylResourceType);
 	}
 	
 	public class StencylResourceEditorBuilder extends DataEditorBuilder
@@ -195,28 +184,10 @@ public class StencylResourceType<T extends AbstractResource> extends DataType<T>
 		{
 			T result = null;
 			
-			if(stencylResourceType == ResourceTypes.actortype)
-			{
-				ActorChooser chooser = new ActorChooser((Resource) selected);
-				result = (T) chooser.getChosenActor();
-				chooser.dispose();
-			}
-			else if(stencylResourceType == ResourceTypes.background)
+			if(stencylResourceType == ResourceTypes.background)
 			{
 				BackgroundChooser chooser = new BackgroundChooser((Resource) selected);
 				result = (T) chooser.getChosenBackground();
-				chooser.dispose();
-			}
-			else if(stencylResourceType == ResourceTypes.font)
-			{
-				FontChooser chooser = new FontChooser((Resource) selected);
-				result = (T) chooser.getChosenFont();
-				chooser.dispose();
-			}
-			else if(stencylResourceType == ResourceTypes.scene)
-			{
-				SceneChooser chooser = new SceneChooser((SceneModel) selected);
-				result = (T) chooser.getChosenScene();
 				chooser.dispose();
 			}
 			else if(stencylResourceType == ResourceTypes.snippet)
@@ -226,16 +197,17 @@ public class StencylResourceType<T extends AbstractResource> extends DataType<T>
 				result = (T) chooser.getResult();
 				chooser.dispose();
 			}
-			else if(stencylResourceType == ResourceTypes.sound)
-			{
-				SoundChooser chooser = new SoundChooser((Resource) selected);
-				result = (T) chooser.getChosenSound();
-				chooser.dispose();
-			}
 			else if(stencylResourceType == ResourceTypes.tileset)
 			{
 				
 			}
+			else
+			{
+				AbstractResourceChooser<T> chooser = new AbstractResourceChooser<T>(stencylResourceType, (Resource) selected);
+				result = (T) chooser.getChosenResource();
+				chooser.dispose();
+			}
+			
 			
 			return result;
 		}

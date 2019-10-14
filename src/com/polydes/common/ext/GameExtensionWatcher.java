@@ -6,14 +6,14 @@ import java.util.Iterator;
 import stencyl.sw.SW;
 import stencyl.sw.ext.BaseExtension;
 import stencyl.sw.ext.GameExtension;
-import stencyl.sw.util.NotifierHashMap.Listener;
+import stencyl.sw.util.NotifierMap.MapListener;
 
 public abstract class GameExtensionWatcher
 {
 	private HashSet<BaseExtension> allExtensions = new HashSet<BaseExtension>();
 	
-	Listener<BaseExtension> extListener = (ext) -> updateExtensions();
-	Listener<GameExtension> gameExtListener = (ext) -> updateExtensions();
+	MapListener<BaseExtension> extListener = (ext) -> updateExtensions();
+	MapListener<GameExtension> gameExtListener = (ext) -> updateExtensions();
 	
 	public final void startWatching()
 	{
