@@ -20,6 +20,8 @@ import com.polydes.common.data.types.DataType;
 import com.polydes.common.data.types.EditorProperties;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
+import stencyl.core.lib.Game;
+
 public class MappedSelectionType<T> extends DataType<T>
 {
 	private DataType<T> internalType;
@@ -57,9 +59,9 @@ public class MappedSelectionType<T> extends DataType<T>
 	}
 
 	@Override
-	public T decode(String s)
+	public T decode(Game game, String s)
 	{
-		return internalType.decode(s);
+		return internalType.decode(null, s);
 	}
 
 	@Override

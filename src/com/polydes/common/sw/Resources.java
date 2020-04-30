@@ -2,22 +2,22 @@ package com.polydes.common.sw;
 
 import java.awt.Image;
 
+import stencyl.core.api.resource.Resource;
+import stencyl.core.api.resource.Resource;
 import stencyl.core.engine.snippet.ISnippet;
-import stencyl.core.lib.AbstractResource;
 import stencyl.core.lib.Folder;
-import stencyl.core.lib.Resource;
 import stencyl.core.lib.scene.SceneModel;
 import stencyl.sw.util.Loader;
 
 public class Resources
 {
-	public static boolean isUnderFolder(AbstractResource r, Folder f)
+	public static boolean isUnderFolder(Resource r, Folder f)
 	{
 		//since Stencyl doesn't have nested folders, null folder represents the root folder.
 		return f == null || r.getParentFolder() == f;
 	}
 	
-	public static Image getImage(AbstractResource r)
+	public static Image getImage(Resource r)
 	{
 		Image img = null;
 		

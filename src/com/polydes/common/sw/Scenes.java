@@ -13,12 +13,10 @@ import org.w3c.dom.NodeList;
 import stencyl.core.engine.snippet.ISnippet;
 import stencyl.core.engine.snippet.SnippetInstance;
 import stencyl.core.lib.Game;
-import stencyl.core.lib.io.IOHelper;
 import stencyl.core.lib.scene.SceneModel;
 import stencyl.sw.SW;
 import stencyl.sw.io.write.resource.SceneWriter;
 import stencyl.sw.util.FileHelper;
-import stencyl.sw.util.Locations;
 
 public class Scenes
 {
@@ -43,7 +41,7 @@ public class Scenes
 	
 	public static enum Xml
 	{
-		Snippets("snippets", (doc, scene) -> SceneWriter.writeSnippets(doc, scene.getSnippets(), Game.getGame(), false));
+		Snippets("snippets", (doc, scene) -> SceneWriter.writeSnippets(doc, scene.getSnippets(), scene.getGame(), false));
 		
 		String tag;
 		BiFunction<Document, SceneModel, Element> writer;
@@ -59,9 +57,9 @@ public class Scenes
 	{
 		try
 		{
-			String url = Locations.getSceneHeaderLocation(model.getID());
+			File sceneFile = model.getFile("scene.xml");
 			
-			Document doc = IOHelper.readXMLFromResource(url);
+			Document doc = FileHelper.readXMLFromFile(sceneFile);
 			Element root = doc.getDocumentElement();
 			
 			Document document = FileHelper.newDocument();
@@ -83,8 +81,6 @@ public class Scenes
 			document.appendChild(root);
 			
 			//---
-			
-			File sceneFile = new File(Locations.getGameLocation(Game.getGame()) + url);
 			
 			FileHelper.writeXMLToFile(document, sceneFile);
 		}

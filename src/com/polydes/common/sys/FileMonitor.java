@@ -14,9 +14,9 @@ import org.apache.log4j.Logger;
 import com.polydes.common.nodes.HierarchyModel;
 
 import stencyl.core.lib.Game;
+import stencyl.core.lib.game.GameLocations;
 import stencyl.sw.SW;
 import stencyl.sw.util.FileHelper;
-import stencyl.sw.util.Locations;
 
 public class FileMonitor
 {
@@ -24,67 +24,53 @@ public class FileMonitor
 	
 	public static final int POLLING_INTERVAL = 1 * 1000;
 	
-	private static FileAlterationObserver observer;
-	private static FileAlterationMonitor monitor;
-	private static FileAlterationListener listener;
+	private static HashMap<String,FileMonitor> monitors = new HashMap<>();
 	
-	public static HashMap<String, SysFile> fileCache = new HashMap<String, SysFile>();
+	public final FileAlterationObserver observer;
+	public final FileAlterationMonitor monitor;
+	public final FileAlterationListener listener;
 	
-	private static HierarchyModel<SysFile,SysFolder> model;
+	public final HashMap<String, SysFile> fileCache = new HashMap<String, SysFile>();
 	
-	public static HierarchyModel<SysFile,SysFolder> getExtrasModel()
+	public final HierarchyModel<SysFile,SysFolder> model;
+	
+	public static FileMonitor getMonitor(Game game)
 	{
-		if(model == null)
+		String gamePath = game.files.getLocation(GameLocations.GAME);
+		if(!monitors.containsKey(gamePath))
 		{
-			File extrasDir = new File(Locations.getGameLocation(Game.getGame()), "extras");
+			File extrasDir = game.files.getFile(GameLocations.EXTRA_DATA);
 			if(!extrasDir.exists())
 				extrasDir.mkdir();
 			
-			model = new HierarchyModel<SysFile, SysFolder>(registerOnRoot(extrasDir), SysFile.class, SysFolder.class)
-			{
-				@Override
-				public void massMove(List<SysFile> transferItems, SysFolder target, int position)
-				{
-					List<File> toMove = new ArrayList<File>();
-					
-					for(SysFile item : transferItems)
-						if(item.getParent() != target)
-						{
-							model.getSelection().remove(item);
-							toMove.add(item.getFile());
-						}
-					if(toMove.isEmpty())
-						return;
-					
-					SysFileOperations.moveFiles(toMove, target.getFile());
-				};
-				
-				@Override
-				public void removeItem(SysFile item, SysFolder target)
-				{
-					FileHelper.delete(item.getFile());
-					FileMonitor.refresh();
-				}
-			};
+			monitors.put(gamePath, new FileMonitor(extrasDir));
 		}
 		
-		return model;
+		return monitors.get(gamePath);
 	}
 	
-	public static SysFolder registerOnRoot(File folder)
+	public static HierarchyModel<SysFile,SysFolder> getExtrasModel(Game game)
 	{
-		if(!folder.exists())
+		return getMonitor(game).model;
+	}
+	
+	public static void close(Game game)
+	{
+		String gamePath = game.files.getLocation(GameLocations.GAME);
+		if(monitors.containsKey(gamePath))
 		{
-			log.error("Couldn't begin file watcher, directory does not exist:\n" + folder.getAbsolutePath());
-			return null;
+			monitors.remove(gamePath).dispose();
+		}
+	}
+	
+	public FileMonitor(File extrasDir)
+	{
+		if(!extrasDir.exists())
+		{
+			extrasDir.mkdirs();
 		}
 		
-		if(observer != null)
-		{
-			unregister();
-		}
-		
-		observer = new FileAlterationObserver(folder);
+		observer = new FileAlterationObserver(extrasDir);
 		monitor = new FileAlterationMonitor(POLLING_INTERVAL);
 		listener = new FileAlterationListenerAdaptor()
 		{
@@ -173,12 +159,38 @@ public class FileMonitor
 			e.printStackTrace();
 		}
 		
-		SysFolder toReturn = (SysFolder) getSys(folder);
-		readFolder(toReturn, true);
-		return toReturn;
+		SysFolder root = (SysFolder) getSys(extrasDir);
+		readFolder(root, true);
+		
+		model = new HierarchyModel<SysFile, SysFolder>(root, SysFile.class, SysFolder.class)
+		{
+			@Override
+			public void massMove(List<SysFile> transferItems, SysFolder target, int position)
+			{
+				List<File> toMove = new ArrayList<File>();
+				
+				for(SysFile item : transferItems)
+					if(item.getParent() != target)
+					{
+						model.getSelection().remove(item);
+						toMove.add(item.getFile());
+					}
+				if(toMove.isEmpty())
+					return;
+				
+				SysFileOperations.moveFiles(toMove, target.getFile());
+			};
+			
+			@Override
+			public void removeItem(SysFile item, SysFolder target)
+			{
+				FileHelper.delete(item.getFile());
+				refresh();
+			}
+		};
 	}
 	
-	private static SysFile getSys(File file)
+	private SysFile getSys(File file)
 	{
 		String key = file.getAbsolutePath();
 		if(fileCache.containsKey(key))
@@ -196,12 +208,12 @@ public class FileMonitor
 		return newFile;
 	}
 	
-	private static void dispose(File file)
+	private void dispose(File file)
 	{
 		fileCache.remove(file.getAbsolutePath());
 	}
 	
-	private static void readFolder(SysFolder folder, boolean isRoot)
+	private void readFolder(SysFolder folder, boolean isRoot)
 	{
 		for(File file : folder.getFile().listFiles())
 		{
@@ -215,36 +227,33 @@ public class FileMonitor
 		}
 	}
 	
-	private static boolean extensionExists(String name)
+	private boolean extensionExists(String name)
 	{
 		return SW.get().getExtensionManager().getExtensions().containsKey(name);
 	}
 	
-	private static SysFile getSysFile(File file)
+	private SysFile getSysFile(File file)
 	{
 		return getSys(file);
 	}
 	
-	private static SysFolder getParentSysFolder(File file)
+	private SysFolder getParentSysFolder(File file)
 	{
 		return (SysFolder) getSys(file.getParentFile());
 	}
 	
-	public static void refresh()
+	public void refresh()
 	{
 		observer.checkAndNotify();
 	}
 	
-	public static void unregister()
+	public void unregister()
 	{
 		try
 		{
 			monitor.stop(1);
 			monitor.removeObserver(observer);
 			observer.removeListener(listener);
-			monitor = null;
-			observer = null;
-			listener = null;
 		}
 		catch (Exception e)
 		{
@@ -254,7 +263,7 @@ public class FileMonitor
 		fileCache.clear();
 	}
 
-	public static void dispose()
+	public void dispose()
 	{
 		if(observer != null)
 		{
@@ -263,7 +272,6 @@ public class FileMonitor
 		if(model != null)
 		{
 			model.dispose();
-			model = null;
 		}
 	}
 }

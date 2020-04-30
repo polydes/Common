@@ -12,6 +12,8 @@ import com.polydes.common.data.types.DataType;
 import com.polydes.common.data.types.EditorProperties;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
+import stencyl.core.lib.Game;
+
 public class CollectionObjectType extends DataType<Object>
 {
 	public CollectionObjectType()
@@ -35,7 +37,7 @@ public class CollectionObjectType extends DataType<Object>
 	}
 
 	@Override
-	public Object decode(String s)
+	public Object decode(Game game, String s)
 	{
 		throw new UnsupportedOperationException();
 	}

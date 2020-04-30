@@ -23,6 +23,8 @@ import com.polydes.common.data.types.EditorProperties;
 import com.polydes.common.data.types.Types;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
+import stencyl.core.lib.Game;
+
 public class SetType extends DataType<DataSet>
 {
 	public SetType()
@@ -55,7 +57,7 @@ public class SetType extends DataType<DataSet>
 	}
 
 	@Override
-	public DataSet decode(String s)
+	public DataSet decode(Game game, String s)
 	{
 		int typeMark = s.lastIndexOf(":");
 		if(typeMark == -1)
@@ -68,7 +70,7 @@ public class SetType extends DataType<DataSet>
 		DataSet toReturn = new DataSet(dtype);
 		
 		for(String s2 : StringUtils.split(s.substring(1, typeMark - 1), ","))
-			toReturn.add(dtype.decode(s2));
+			toReturn.add(dtype.decode(null, s2));
 		
 		return toReturn;
 	}

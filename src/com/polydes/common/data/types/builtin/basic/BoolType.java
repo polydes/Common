@@ -12,6 +12,8 @@ import com.polydes.common.data.types.DataType;
 import com.polydes.common.data.types.EditorProperties;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
+import stencyl.core.lib.Game;
+
 public class BoolType extends DataType<Boolean>
 {
 	public BoolType()
@@ -32,7 +34,7 @@ public class BoolType extends DataType<Boolean>
 	}
 
 	@Override
-	public Boolean decode(String s)
+	public Boolean decode(Game game, String s)
 	{
 		return s.equals("true");
 	}

@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 
+import stencyl.core.lib.Game;
 import stencyl.sw.util.FileHelper;
 
 public class SysFileOperations
@@ -37,7 +38,7 @@ public class SysFileOperations
 			}
 		};
 		
-		FileMonitor.refresh();
+		FileMonitor.getMonitor(Game.getGame2()).refresh();
 	}
 	
 	/**

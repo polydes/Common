@@ -23,6 +23,7 @@ import com.polydes.common.data.types.DataType;
 import com.polydes.common.data.types.EditorProperties;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
+import stencyl.core.lib.Game;
 import stencyl.sw.util.VerificationHelper;
 
 public class FloatType extends DataType<Float>
@@ -71,7 +72,7 @@ public class FloatType extends DataType<Float>
 	}
 
 	@Override
-	public Float decode(String s)
+	public Float decode(Game game, String s)
 	{
 		try
 		{

@@ -15,7 +15,6 @@ import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 import stencyl.core.lib.Folder;
 import stencyl.core.lib.Game;
 import stencyl.core.lib.ResourceType;
-import stencyl.sw.util.Util;
 
 public class ResourceFolderType extends DataType<Folder>
 {
@@ -39,14 +38,13 @@ public class ResourceFolderType extends DataType<Folder>
 	}
 	
 	@Override
-	public Folder decode(String s)
+	public Folder decode(Game game, String s)
 	{
-		int id = Util.parseInt(s, -1);
-		if(id == -1)
+		if(s.equals("-1"))
 			return null;
 		
-		for(Folder f : Game.getGame().getFolders().getAllFolders())
-			if(f.getID() == id)
+		for(Folder f : game.getFolders().getAllFolders())
+			if(f.getID().equals(s))
 				return f;
 		
 		return null;
@@ -87,7 +85,7 @@ public class ResourceFolderType extends DataType<Folder>
 		
 		public FolderChooser(ResourceType type)
 		{
-			editor = new UpdatingCombo<Folder>(Game.getGame().getFolders().getAllFolders(), null);
+			editor = new UpdatingCombo<Folder>(Game.getGame2().getFolders().getAllFolders(), null);
 			setType(type);
 			
 			editor.addActionListener(new ActionListener()

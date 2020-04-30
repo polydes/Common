@@ -38,7 +38,7 @@ public class DataList extends ArrayList<Object>
 	{
 		DataList a = new DataList(genType);
 		for(String s2 : s)
-			a.add(genType.decode(s2));
+			a.add(genType.decode(null, s2));
 		
 		return a;
 	}

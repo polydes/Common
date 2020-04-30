@@ -29,6 +29,7 @@ import com.polydes.common.sys.FileRenderer;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
 import misc.comp.ImagePreview;
+import stencyl.core.lib.Game;
 import stencyl.sw.SW;
 import stencyl.sw.util.comp.GroupButton;
 import stencyl.sw.util.filechooser.ImageFileView;
@@ -60,7 +61,7 @@ public class FileType extends DataType<File>
 	}
 
 	@Override
-	public File decode(String s)
+	public File decode(Game game, String s)
 	{
 		return new File(s);
 	}

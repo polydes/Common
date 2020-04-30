@@ -22,6 +22,7 @@ import com.polydes.common.data.types.DataType;
 import com.polydes.common.data.types.EditorProperties;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
+import stencyl.core.lib.Game;
 import stencyl.sw.util.VerificationHelper;
 
 public class IntType extends DataType<Integer>
@@ -69,7 +70,7 @@ public class IntType extends DataType<Integer>
 	}
 
 	@Override
-	public Integer decode(String s)
+	public Integer decode(Game game, String s)
 	{
 		try
 		{

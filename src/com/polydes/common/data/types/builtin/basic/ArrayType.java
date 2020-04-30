@@ -22,6 +22,8 @@ import com.polydes.common.data.types.EditorProperties;
 import com.polydes.common.data.types.Types;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
+import stencyl.core.lib.Game;
+
 public class ArrayType extends DataType<DataList>
 {
 	public ArrayType()
@@ -51,7 +53,7 @@ public class ArrayType extends DataType<DataList>
 	}
 
 	@Override
-	public DataList decode(String s)
+	public DataList decode(Game game, String s)
 	{
 		if(s.isEmpty())
 			return null;
@@ -62,7 +64,7 @@ public class ArrayType extends DataType<DataList>
 		DataList list = new DataList(genType);
 		
 		for(String s2 : getEmbeddedArrayStrings(s))
-			list.add(genType.decode(s2));
+			list.add(genType.decode(null, s2));
 		
 		return list;
 	}

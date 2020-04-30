@@ -35,9 +35,9 @@ public class IControlType extends DataType<IControl>
 	}
 
 	@Override
-	public IControl decode(String s)
+	public IControl decode(Game game, String s)
 	{
-		for(IControl c : Game.getGame().getNewController().values())
+		for(IControl c : Game.getGame2().getNewController().values())
 			if(c.getName().equals(s))
 				return c;
 		
@@ -65,7 +65,7 @@ public class IControlType extends DataType<IControl>
 		
 		public IControlEditor()
 		{
-			editor = new UpdatingCombo<IControl>(Game.getGame().getNewController().values(), null);
+			editor = new UpdatingCombo<IControl>(Game.getGame2().getNewController().values(), null);
 			
 			editor.addActionListener(new ActionListener()
 			{

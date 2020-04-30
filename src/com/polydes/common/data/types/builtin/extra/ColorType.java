@@ -15,6 +15,8 @@ import com.polydes.common.data.types.EditorProperties;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 import com.polydes.common.util.ColorUtil;
 
+import stencyl.core.lib.Game;
+
 public class ColorType extends DataType<Color>
 {
 	public ColorType()
@@ -35,7 +37,7 @@ public class ColorType extends DataType<Color>
 	}
 
 	@Override
-	public Color decode(String s)
+	public Color decode(Game game, String s)
 	{
 		return ColorUtil.decode(s);
 	}

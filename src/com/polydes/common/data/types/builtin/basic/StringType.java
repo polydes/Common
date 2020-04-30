@@ -16,6 +16,8 @@ import com.polydes.common.data.types.DataType;
 import com.polydes.common.data.types.EditorProperties;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
+import stencyl.core.lib.Game;
+
 public class StringType extends DataType<String>
 {
 	public StringType()
@@ -44,7 +46,7 @@ public class StringType extends DataType<String>
 	}
 	
 	@Override
-	public String decode(String s)
+	public String decode(Game game, String s)
 	{
 		return s;
 	}

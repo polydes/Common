@@ -4,6 +4,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 
+import stencyl.sw.util.Worker;
+
 public abstract class DocumentAdapter implements DocumentListener
 {
 	private boolean noBlank;
@@ -33,4 +35,16 @@ public abstract class DocumentAdapter implements DocumentListener
 	@Override public void changedUpdate(DocumentEvent e){innerUpdate(e);}
 	@Override public void insertUpdate(DocumentEvent e){innerUpdate(e);}
 	@Override public void removeUpdate(DocumentEvent e){innerUpdate(e);}
+	
+	public static DocumentListener of(Worker listener)
+	{
+		return new DocumentAdapter(false)
+		{
+			@Override
+			protected void update()
+			{
+				listener.doWork();
+			}
+		};
+	}
 }

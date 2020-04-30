@@ -19,9 +19,9 @@ import com.polydes.common.data.types.EditorProperties;
 import com.polydes.common.sw.Resources;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
-import stencyl.core.lib.AbstractResource;
+import stencyl.core.api.resource.Resource;
+import stencyl.core.api.resource.Resource;
 import stencyl.core.lib.Game;
-import stencyl.core.lib.Resource;
 import stencyl.core.lib.ResourceType;
 import stencyl.core.lib.ResourceTypes;
 import stencyl.sw.app.TaskManager;
@@ -30,7 +30,7 @@ import stencyl.sw.editors.scene.dialogs.BackgroundChooser;
 import stencyl.sw.editors.snippet.vars.AbstractResourceChooser;
 import stencyl.sw.util.comp.GroupButton;
 
-public class StencylResourceType<T extends AbstractResource> extends DataType<T>
+public class StencylResourceType<T extends Resource> extends DataType<T>
 {
 	ResourceType stencylResourceType;
 	
@@ -46,10 +46,11 @@ public class StencylResourceType<T extends AbstractResource> extends DataType<T>
 	@Override
 	public DataEditor<T> createEditor(EditorProperties props, PropertiesSheetStyle style)
 	{
+		Game game = Game.getGame2();
 		if(props.get(RENDER_PREVIEW) == Boolean.TRUE)
-			return new RenderedResourceChooser();
+			return new RenderedResourceChooser(game);
 		else
-			return new DropdownResourceEditor();
+			return new DropdownResourceEditor(game);
 	}
 	
 	@Override
@@ -60,12 +61,12 @@ public class StencylResourceType<T extends AbstractResource> extends DataType<T>
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public T decode(String s)
+	public T decode(Game game, String s)
 	{
 		try
 		{
 			int id = Integer.parseInt(s);
-			Resource r = Game.getGame().getResource(id);
+			Resource r = game.getResource(id);
 			if(r != null && javaType.isAssignableFrom(r.getClass()))
 				return (T) r;
 			
@@ -99,9 +100,9 @@ public class StencylResourceType<T extends AbstractResource> extends DataType<T>
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Collection<T> getList()
+	public Collection<T> getList(Game game)
 	{
-		return (Collection<T>) Game.getGame().getResourcesForResourceType(stencylResourceType);
+		return (Collection<T>) game.getResourcesForResourceType(stencylResourceType);
 	}
 	
 	public class StencylResourceEditorBuilder extends DataEditorBuilder
@@ -120,16 +121,18 @@ public class StencylResourceType<T extends AbstractResource> extends DataType<T>
 	
 	public class RenderedResourceChooser extends DataEditor<T>
 	{
+		final Game game;
 		final RenderedPanel panel;
 		final GroupButton button;
 		
 		T selected;
 		
-		public RenderedResourceChooser()
+		public RenderedResourceChooser(Game game)
 		{
 			if(stencylResourceType == ResourceTypes.tileset)
 				throw new NotImplementedException("RenderedResourceChooser not implemented for Tileset resources.");
 			
+			this.game = game;
 			panel = new RenderedPanel(90, 60, 0);
 			
 			button = new GroupButton(4);
@@ -193,7 +196,7 @@ public class StencylResourceType<T extends AbstractResource> extends DataType<T>
 			else if(stencylResourceType == ResourceTypes.snippet)
 			{
 				//TODO this is actor-only
-				SnippetChooser chooser = new SnippetChooser(true);
+				SnippetChooser chooser = new SnippetChooser(game, true);
 				result = (T) chooser.getResult();
 				chooser.dispose();
 			}
@@ -203,7 +206,7 @@ public class StencylResourceType<T extends AbstractResource> extends DataType<T>
 			}
 			else
 			{
-				AbstractResourceChooser<T> chooser = new AbstractResourceChooser<T>(stencylResourceType, (Resource) selected);
+				AbstractResourceChooser<T> chooser = new AbstractResourceChooser<T>(stencylResourceType, game, (Resource) selected);
 				result = (T) chooser.getChosenResource();
 				chooser.dispose();
 			}
@@ -217,9 +220,9 @@ public class StencylResourceType<T extends AbstractResource> extends DataType<T>
 	{
 		final UpdatingCombo<T> editor;
 		
-		public DropdownResourceEditor()
+		public DropdownResourceEditor(Game game)
 		{
-			editor = new UpdatingCombo<T>(getList(), null);
+			editor = new UpdatingCombo<T>(getList(game), null);
 			editor.setIconProvider(resource -> {
 				if(resource == null)
 					return null;

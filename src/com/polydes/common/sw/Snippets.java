@@ -1,32 +1,27 @@
 package com.polydes.common.sw;
 
-import java.io.File;
 import java.io.IOException;
+
+import org.apache.commons.io.FileUtils;
 
 import stencyl.core.engine.snippet.ISnippet;
 import stencyl.core.engine.snippet.ISnippet.SnippetType;
 import stencyl.core.lib.Game;
-import stencyl.sw.util.FileHelper;
-import stencyl.sw.util.Locations;
+import stencyl.core.lib.game.GameLocations;
 
 public class Snippets
 {
-	public static ISnippet createNew(String name, String packageName, String className, String description, String sourceCode)
+	public static ISnippet createNew(Game game, String name, String packageName, String className, String description, String sourceCode)
 	{
 		try
 		{
-			Game game = Game.getGame();
 			int ID = game.getNextSnippetID();
 			
 			ISnippet s = new ISnippet
 			(
-				ID, 
-				name, 
+				null,
 				className, 
 				-1, 
-				description, 
-				false,
-				-1,
 				0,
 				SnippetType.ARBITRARY,
 				-1,
@@ -35,11 +30,14 @@ public class Snippets
 				true,
 				packageName
 			);
+			s.setID(ID);
+			s.setName(name);
+			s.setDescription(description);
 			
 			game.getSnippetList().put(ID, s);
 			
-			new File(Locations.getPath(Locations.getGameLocation(game), "code")).mkdirs();
-			FileHelper.writeToGameFile(game, Locations.getPath("code") + className + ".hx", sourceCode.getBytes());
+			game.files.getFile(GameLocations.CODE).mkdirs();
+			FileUtils.writeByteArrayToFile(game.files.getFile(GameLocations.CODE, className + ".hx"), sourceCode.getBytes());
 			
 			return s;
 		}

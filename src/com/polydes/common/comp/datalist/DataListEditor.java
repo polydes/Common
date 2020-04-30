@@ -260,7 +260,7 @@ public class DataListEditor extends JPanel implements KeyListener, MouseListener
 	
 	public void add()
 	{
-		Object newItem = model.genType.decode("");
+		Object newItem = model.genType.decode(null, "");
 		int insertAt = Math.max(0, table.getSelectedRow());
 		
 		tableModel.insert(newItem, insertAt);
@@ -627,13 +627,13 @@ public class DataListEditor extends JPanel implements KeyListener, MouseListener
 				DataType<?> type = Types.get().getItem(sd.type);
 				if(type == Types._Array)
 				{
-					DataList values = Types._Array.decode(sd.data);
+					DataList values = Types._Array.decode(null, sd.data);
 					dle.tableModel.insertList(values, dropRow);
 					return true;
 				}
 				else if(type == dle.model.genType)
 				{
-					Object value = type.decode(sd.data);
+					Object value = type.decode(null, sd.data);
 					dle.tableModel.insert(value, dropRow);
 					return true;
 				}
@@ -649,7 +649,7 @@ public class DataListEditor extends JPanel implements KeyListener, MouseListener
 				{
 					try
 					{
-						newData.add(newData.genType.decode(sub));
+						newData.add(newData.genType.decode(null, sub));
 					}
 					catch(Exception ex)
 					{

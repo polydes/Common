@@ -21,6 +21,8 @@ import com.polydes.common.data.types.DataType;
 import com.polydes.common.data.types.EditorProperties;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
+import stencyl.core.lib.Game;
+
 @Deprecated
 public class SelectionType extends DataType<String>
 {
@@ -55,7 +57,7 @@ public class SelectionType extends DataType<String>
 	}
 
 	@Override
-	public String decode(String s)
+	public String decode(Game game, String s)
 	{
 		return s;
 	}

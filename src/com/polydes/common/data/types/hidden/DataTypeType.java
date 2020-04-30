@@ -14,6 +14,8 @@ import com.polydes.common.data.types.EditorProperties;
 import com.polydes.common.data.types.Types;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
+import stencyl.core.lib.Game;
+
 @SuppressWarnings("rawtypes")
 public class DataTypeType extends DataType<DataType>
 {
@@ -35,7 +37,7 @@ public class DataTypeType extends DataType<DataType>
 	}
 
 	@Override
-	public DataType decode(String s)
+	public DataType decode(Game game, String s)
 	{
 		return Types.get().getItem(s);
 	}

@@ -6,6 +6,8 @@ import javax.swing.JLabel;
 import com.polydes.common.ext.RegistryObject;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
+import stencyl.core.lib.Game;
+
 public abstract class DataType<T> implements Comparable<DataType<?>>, RegistryObject
 {
 	public static String DEFAULT_VALUE = "default";
@@ -35,7 +37,7 @@ public abstract class DataType<T> implements Comparable<DataType<?>>, RegistryOb
 	public abstract DataEditor<T> createEditor(EditorProperties properties, PropertiesSheetStyle style);
 	public abstract DataEditorBuilder createEditorBuilder();
 	
-	public abstract T decode(String s);
+	public abstract T decode(Game game, String s);
 	
 	public String toDisplayString(T data)
 	{

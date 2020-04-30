@@ -7,6 +7,8 @@ import com.polydes.common.data.types.DataType;
 import com.polydes.common.data.types.EditorProperties;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
+import stencyl.core.lib.Game;
+
 @SuppressWarnings("rawtypes")
 public class EnumType extends DataType<Enum>
 {
@@ -36,7 +38,7 @@ public class EnumType extends DataType<Enum>
 	}
 	
 	@Override
-	public Enum decode(String s)
+	public Enum decode(Game game, String s)
 	{
 		return null;
 	}

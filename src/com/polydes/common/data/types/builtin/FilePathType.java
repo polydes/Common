@@ -12,6 +12,8 @@ import com.polydes.common.data.types.EditorProperties;
 import com.polydes.common.data.types.builtin.FileType.FileEditor;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
+import stencyl.core.lib.Game;
+
 public class FilePathType extends DataType<String>
 {
 	public FilePathType()
@@ -32,7 +34,7 @@ public class FilePathType extends DataType<String>
 	}
 
 	@Override
-	public String decode(String s)
+	public String decode(Game game, String s)
 	{
 		return s;
 	}
