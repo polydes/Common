@@ -65,7 +65,7 @@ public class StencylResourceType<T extends AbstractResource> extends DataType<T>
 		try
 		{
 			int id = Integer.parseInt(s);
-			Resource r = Game.getGame().getResource(id);
+			Resource r = Game.getGame2().getResource(id);
 			if(r != null && javaType.isAssignableFrom(r.getClass()))
 				return (T) r;
 			
@@ -101,7 +101,7 @@ public class StencylResourceType<T extends AbstractResource> extends DataType<T>
 	@SuppressWarnings("unchecked")
 	public Collection<T> getList()
 	{
-		return (Collection<T>) Game.getGame().getResourcesForResourceType(stencylResourceType);
+		return (Collection<T>) Game.getGame2().getResourcesForResourceType(stencylResourceType);
 	}
 	
 	public class StencylResourceEditorBuilder extends DataEditorBuilder
@@ -193,7 +193,7 @@ public class StencylResourceType<T extends AbstractResource> extends DataType<T>
 			else if(stencylResourceType == ResourceTypes.snippet)
 			{
 				//TODO this is actor-only
-				SnippetChooser chooser = new SnippetChooser(true);
+				SnippetChooser chooser = new SnippetChooser(Game.getGame2(), true);
 				result = (T) chooser.getResult();
 				chooser.dispose();
 			}
@@ -203,7 +203,7 @@ public class StencylResourceType<T extends AbstractResource> extends DataType<T>
 			}
 			else
 			{
-				AbstractResourceChooser<T> chooser = new AbstractResourceChooser<T>(stencylResourceType, (Resource) selected);
+				AbstractResourceChooser<T> chooser = new AbstractResourceChooser<T>(stencylResourceType, Game.getGame2(), (Resource) selected);
 				result = (T) chooser.getChosenResource();
 				chooser.dispose();
 			}

@@ -1,6 +1,6 @@
 package com.polydes.common.sys;
 
-import static com.polydes.common.util.Lang.asArray;
+import static com.polydes.common.util.Lang.*;
 
 import java.awt.BorderLayout;
 import java.awt.MouseInfo;
@@ -26,6 +26,8 @@ import com.polydes.common.nodes.Leaf;
 import com.polydes.common.nodes.NodeCreator.NodeAction;
 import com.polydes.common.ui.object.ViewableObject;
 import com.polydes.common.util.PopupUtil;
+
+import stencyl.core.lib.Game;
 
 public class SysFile implements Leaf<SysFile,SysFolder>, ViewableObject
 {
@@ -88,7 +90,7 @@ public class SysFile implements Leaf<SysFile,SysFolder>, ViewableObject
 		if(name != newName)
 		{
 			file.renameTo(new File(file.getParentFile(), newName));
-			FileMonitor.refresh();
+			FileMonitor.getMonitor(Game.getGame2()).refresh();
 		}
 	}
 	
@@ -189,7 +191,7 @@ public class SysFile implements Leaf<SysFile,SysFolder>, ViewableObject
 			{
 				if(e.isPopupTrigger())
 				{
-					HierarchyModel<SysFile,SysFolder> folderModel = FileMonitor.getExtrasModel();
+					HierarchyModel<SysFile,SysFolder> folderModel = FileMonitor.getExtrasModel(Game.getGame2());
 					
 					ArrayList<JMenuItem> menuItems = new ArrayList<>();
 					

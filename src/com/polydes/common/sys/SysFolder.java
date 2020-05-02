@@ -12,6 +12,8 @@ import com.polydes.common.nodes.BranchListener;
 import com.polydes.common.ui.filelist.BranchPage;
 import com.polydes.common.ui.filelist.LeafList.LeafRenderer;
 
+import stencyl.core.lib.Game;
+
 public class SysFolder extends SysFile implements Branch<SysFile,SysFolder>
 {
 	private ArrayList<BranchListener<SysFile,SysFolder>> flisteners;
@@ -183,7 +185,7 @@ public class SysFolder extends SysFile implements Branch<SysFile,SysFolder>
 	{
 		if(view == null)
 		{
-			BranchPage<SysFile, SysFolder> branchPage = new BranchPage<SysFile,SysFolder>(this, FileMonitor.getExtrasModel());
+			BranchPage<SysFile, SysFolder> branchPage = new BranchPage<SysFile,SysFolder>(this, FileMonitor.getExtrasModel(Game.getGame2()));
 			branchPage.getList().setCellRenderer(renderer);
 			view = branchPage;
 		}
