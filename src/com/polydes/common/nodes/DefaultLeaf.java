@@ -20,6 +20,7 @@ public class DefaultLeaf implements Comparable<DefaultLeaf>, Leaf<DefaultLeaf,De
 	{
 		this.name = name;
 		this.userData = userData;
+		this.dirty = true;
 	}
 	
 	public DefaultLeaf(String name)

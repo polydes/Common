@@ -118,7 +118,8 @@ public class DarkTree<T extends Leaf<T,U>, U extends Branch<T,U>> extends JPanel
 			@Override
 			public String convertValueToText(Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus)
 			{
-				return ((T) value).getName();
+				T tValue = (T) value;
+				return tValue.getName() + (tValue.isDirty() ? "*" : "");
 			}
 		};
 		
@@ -345,7 +346,7 @@ public class DarkTree<T extends Leaf<T,U>, U extends Branch<T,U>> extends JPanel
 		
 		if (e.getKeyCode() == KeyEvent.VK_ENTER)
 		{
-			if(!listEditEnabled)
+			if(!listEditEnabled || !nameEditingAllowed)
 				return;
 			
 			if(selection.size() != 1 || selection.firstNode() == root)
