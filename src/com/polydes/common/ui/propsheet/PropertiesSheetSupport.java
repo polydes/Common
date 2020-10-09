@@ -80,6 +80,8 @@ public class PropertiesSheetSupport
 		
 		fields.put(field.varname, field);
 		field.oldValue = readField(model, field.varname);
+		//TODO: if field.oldValue is a mutable object that's changed in-place,
+		//it should be cloned so we can properly restore the old value.
 		field.editor = editor;
 		editor.setValue(field.oldValue);
 		
@@ -274,6 +276,8 @@ public class PropertiesSheetSupport
 				FieldUtils.writeDeclaredField(target, fieldName, value, true);
 			else
 				FieldUtils.writeField(target, fieldName, value, true);
+			
+			//XXX: this won't work for mutable objects that are changed in-place.
 			pcs.firePropertyChange(fieldName, oldValue, value);
 		}
 		catch(IllegalAccessException e)
