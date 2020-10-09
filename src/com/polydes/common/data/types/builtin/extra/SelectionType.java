@@ -19,6 +19,7 @@ import com.polydes.common.data.types.DataEditor;
 import com.polydes.common.data.types.DataEditorBuilder;
 import com.polydes.common.data.types.DataType;
 import com.polydes.common.data.types.EditorProperties;
+import com.polydes.common.data.types.PropertyKey;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
 @Deprecated
@@ -29,7 +30,8 @@ public class SelectionType extends DataType<String>
 		super(String.class, "com.polydes.common.Selection");
 	}
 	
-	public static final String OPTIONS = "options";
+	public static final PropertyKey<Editor>   EDITOR  = new PropertyKey<>("editor");
+	public static final PropertyKey<DataList> OPTIONS = new PropertyKey<>("options");
 	
 	@Override
 	public DataEditorBuilder createEditorBuilder()
@@ -45,7 +47,7 @@ public class SelectionType extends DataType<String>
 		if(options == null || options.isEmpty())
 			return new InvalidEditor<String>("The selected source has no items", style);
 		
-		switch(or(props.<Editor>get(EDITOR), Editor.Dropdown))
+		switch(or(props.get(EDITOR), Editor.Dropdown))
 		{
 			case RadioButtons:
 				return new RadioButtonsSelectionEditor(options, style);

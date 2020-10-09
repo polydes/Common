@@ -23,6 +23,7 @@ import com.polydes.common.data.core.DataList;
 import com.polydes.common.data.types.DataEditor;
 import com.polydes.common.data.types.DataType;
 import com.polydes.common.data.types.EditorProperties;
+import com.polydes.common.data.types.PropertyKey;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
 public class DataListCellEditor implements TableCellEditor
@@ -31,7 +32,7 @@ public class DataListCellEditor implements TableCellEditor
 	private static final EditorProperties defaultProps = new EditorProperties()
 	{
 		@Override
-		public Object put(String key, Object value)
+		public <T, U extends T> T put(PropertyKey<T> key, U value)
 		{
 			throw new RuntimeException();
 		};

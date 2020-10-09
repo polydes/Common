@@ -19,6 +19,7 @@ import com.polydes.common.data.types.DataEditor;
 import com.polydes.common.data.types.DataEditorBuilder;
 import com.polydes.common.data.types.DataType;
 import com.polydes.common.data.types.EditorProperties;
+import com.polydes.common.data.types.PropertyKey;
 import com.polydes.common.data.types.Types;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
@@ -29,13 +30,14 @@ public class ArrayType extends DataType<DataList>
 		super(DataList.class);
 	}
 	
-	public static final String GEN_TYPE = "genType";
-	public static final String GEN_TYPE_PROPS = "genTypeProps";
+	public static final PropertyKey<Editor> EDITOR = new PropertyKey<>("editor");
+	public static final PropertyKey<DataType<?>> GEN_TYPE = new PropertyKey<>("genType");
+	public static final PropertyKey<EditorProperties> GEN_TYPE_PROPS = new PropertyKey<>("genTypeProps");
 	
 	@Override
 	public DataEditor<DataList> createEditor(EditorProperties props, PropertiesSheetStyle style)
 	{
-		switch(or(props.<Editor>get(EDITOR), Editor.Standard))
+		switch(or(props.get(EDITOR), Editor.Standard))
 		{
 			case Simple:
 				return new SimpleArrayEditor(style, props);

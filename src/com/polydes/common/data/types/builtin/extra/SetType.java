@@ -20,6 +20,7 @@ import com.polydes.common.data.types.DataEditor;
 import com.polydes.common.data.types.DataEditorBuilder;
 import com.polydes.common.data.types.DataType;
 import com.polydes.common.data.types.EditorProperties;
+import com.polydes.common.data.types.PropertyKey;
 import com.polydes.common.data.types.Types;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
@@ -30,9 +31,10 @@ public class SetType extends DataType<DataSet>
 		super(DataSet.class);
 	}
 	
-	public static final String SOURCE = "source";
-	public static final String SOURCE_FILTER = "sourceFilter";
-	public static final String GEN_TYPE = "genType";
+	public static final PropertyKey<Editor>        EDITOR        = new PropertyKey<>("editor");
+	public static final PropertyKey<Collection<?>> SOURCE        = new PropertyKey<>("source");
+	public static final PropertyKey<Predicate<?>>  SOURCE_FILTER = new PropertyKey<>("sourceFilter");
+	public static final PropertyKey<DataType<?>>   GEN_TYPE      = new PropertyKey<>("genType");
 	
 	@Override
 	public DataEditor<DataSet> createEditor(EditorProperties props, PropertiesSheetStyle style)
@@ -150,7 +152,7 @@ public class SetType extends DataType<DataSet>
 		{
 			source = props.get(SOURCE);
 			genType = props.get(GEN_TYPE);
-			Predicate<Object> filter = props.get(SOURCE_FILTER);
+			Predicate filter = props.get(SOURCE_FILTER);
 			
 			ArrayList<JCheckBox> buttons = new ArrayList<JCheckBox>();
 			

@@ -20,6 +20,7 @@ import com.polydes.common.data.types.DataEditor;
 import com.polydes.common.data.types.DataEditorBuilder;
 import com.polydes.common.data.types.DataType;
 import com.polydes.common.data.types.EditorProperties;
+import com.polydes.common.data.types.PropertyKey;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
 import stencyl.sw.util.VerificationHelper;
@@ -31,20 +32,21 @@ public class IntType extends DataType<Integer>
 		super(Integer.class);
 	}
 	
-	public static final String MIN = "min";
-	public static final String MAX = "max";
-	public static final String STEP = "step";
+	public static final PropertyKey<Editor>  EDITOR = new PropertyKey<>("editor");
+	public static final PropertyKey<Integer> MIN    = new PropertyKey<>("min");
+	public static final PropertyKey<Integer> MAX    = new PropertyKey<>("max");
+	public static final PropertyKey<Integer> STEP   = new PropertyKey<>("step");
 	
 	@Override
 	public DataEditor<Integer> createEditor(EditorProperties props, PropertiesSheetStyle style)
 	{
-		int min1 = or(props.<Integer>get(MIN), Integer.MIN_VALUE);
-		final int max = or(props.<Integer>get(MAX), Integer.MAX_VALUE);
+		int min1 = or(props.get(MIN), Integer.MIN_VALUE);
+		final int max = or(props.get(MAX), Integer.MAX_VALUE);
 		final int min = min1 > max ? max : min1;
 		
 		IntegerEditor editor = null;
 		
-		switch(or(props.<Editor>get(EDITOR), Editor.Plain))
+		switch(or(props.get(EDITOR), Editor.Plain))
 		{
 			case Slider:
 				editor = new SliderIntegerEditor(props, style);

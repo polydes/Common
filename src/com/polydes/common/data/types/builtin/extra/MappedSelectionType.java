@@ -1,6 +1,6 @@
 package com.polydes.common.data.types.builtin.extra;
 
-import static com.polydes.common.util.Lang.*;
+import static com.polydes.common.util.Lang.or;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +18,7 @@ import com.polydes.common.data.types.DataEditor;
 import com.polydes.common.data.types.DataEditorBuilder;
 import com.polydes.common.data.types.DataType;
 import com.polydes.common.data.types.EditorProperties;
+import com.polydes.common.data.types.PropertyKey;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
 public class MappedSelectionType<T> extends DataType<T>
@@ -30,7 +31,8 @@ public class MappedSelectionType<T> extends DataType<T>
 		internalType = type;
 	}
 	
-	public static final String OPTIONS = "options";
+	public static final PropertyKey<Editor>           EDITOR  = new PropertyKey<>("editor");
+	public static final PropertyKey<SelectionList<?>> OPTIONS = new PropertyKey<>("options");
 	
 	@Override
 	public DataEditorBuilder createEditorBuilder()
@@ -42,12 +44,12 @@ public class MappedSelectionType<T> extends DataType<T>
 	@Override
 	public DataEditor<T> createEditor(EditorProperties props, PropertiesSheetStyle style)
 	{
-		SelectionList<T> options = props.get(OPTIONS);
+		SelectionList<T> options = (SelectionList<T>) props.get(OPTIONS);
 		
 		if(options == null || options.list.isEmpty())
 			return new InvalidEditor<T>("The selected source has no items", style);
 		
-		switch(or(props.<Editor>get(EDITOR), Editor.Dropdown))
+		switch(or(props.get(EDITOR), Editor.Dropdown))
 		{
 			case RadioButtons:
 				return new RadioButtonsSelectionEditor(options, style);

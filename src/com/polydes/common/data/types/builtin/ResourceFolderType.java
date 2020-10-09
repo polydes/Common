@@ -10,6 +10,7 @@ import com.polydes.common.data.types.DataEditor;
 import com.polydes.common.data.types.DataEditorBuilder;
 import com.polydes.common.data.types.DataType;
 import com.polydes.common.data.types.EditorProperties;
+import com.polydes.common.data.types.PropertyKey;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
 import stencyl.core.lib.Folder;
@@ -24,7 +25,7 @@ public class ResourceFolderType extends DataType<Folder>
 		super(Folder.class);
 	}
 	
-	public static final String RESOURCE_TYPE = "resourceType";
+	public static final PropertyKey<ResourceType> RESOURCE_TYPE = new PropertyKey<>("resourceType");
 	
 	@Override
 	public DataEditor<Folder> createEditor(EditorProperties props, PropertiesSheetStyle style)

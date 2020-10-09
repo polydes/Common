@@ -25,6 +25,7 @@ import com.polydes.common.data.types.DataEditor;
 import com.polydes.common.data.types.DataEditorBuilder;
 import com.polydes.common.data.types.DataType;
 import com.polydes.common.data.types.EditorProperties;
+import com.polydes.common.data.types.PropertyKey;
 import com.polydes.common.sys.FileRenderer;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
@@ -40,12 +41,12 @@ public class FileType extends DataType<File>
 		super(File.class);
 	}
 
-	public static final String ROOT_DIRECTORY = "rootDirectory";
-	public static final String ONLY_DIRECTORIES = "onlyDirectories";
-	public static final String FILTER = "filter";
-	public static final String RENDER_PREVIEW = "renderPreview";
-	public static final String START_FROM_SELECTED = "startFromSelected";
-	public static final String VALIDATION_FUNCTION = "validationFunction";
+	public static final PropertyKey<String>          ROOT_DIRECTORY      = new PropertyKey<>("rootDirectory");
+	public static final PropertyKey<Boolean>         ONLY_DIRECTORIES    = new PropertyKey<>("onlyDirectories");
+	public static final PropertyKey<DualFileFilter>  FILTER              = new PropertyKey<>("filter");
+	public static final PropertyKey<Boolean>         RENDER_PREVIEW      = new PropertyKey<>("renderPreview");
+	public static final PropertyKey<Boolean>         START_FROM_SELECTED = new PropertyKey<>("startFromSelected");
+	public static final PropertyKey<Predicate<File>> VALIDATION_FUNCTION = new PropertyKey<>("validationFunction");
 	
 	@Override
 	public DataEditor<File> createEditor(EditorProperties props, PropertiesSheetStyle style)

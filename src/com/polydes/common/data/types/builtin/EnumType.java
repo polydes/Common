@@ -5,6 +5,7 @@ import com.polydes.common.data.types.DataEditor;
 import com.polydes.common.data.types.DataEditorBuilder;
 import com.polydes.common.data.types.DataType;
 import com.polydes.common.data.types.EditorProperties;
+import com.polydes.common.data.types.PropertyKey;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
 @SuppressWarnings("rawtypes")
@@ -15,12 +16,14 @@ public class EnumType extends DataType<Enum>
 		super(Enum.class);
 	}
 	
-	public static final String ENUM_TYPE = "enumType";
+	public static final PropertyKey<Class<? extends Enum<?>>> ENUM_TYPE = new PropertyKey<>("enumType");
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public DataEditor<Enum> createEditor(EditorProperties properties, PropertiesSheetStyle style)
 	{
-		return new EnumEditor<>(properties.get(ENUM_TYPE));
+		Class<? extends Enum<?>> enumClass = properties.get(ENUM_TYPE);
+		return new EnumEditor<>((Class<Enum>) enumClass);
 	}
 	
 	@Override

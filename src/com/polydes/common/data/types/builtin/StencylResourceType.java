@@ -16,6 +16,7 @@ import com.polydes.common.data.types.DataEditor;
 import com.polydes.common.data.types.DataEditorBuilder;
 import com.polydes.common.data.types.DataType;
 import com.polydes.common.data.types.EditorProperties;
+import com.polydes.common.data.types.PropertyKey;
 import com.polydes.common.sw.Resources;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
@@ -45,7 +46,7 @@ public class StencylResourceType<T extends AbstractResource> extends DataType<T>
 		this.stencylResourceType = stencylResourceType;
 	}
 	
-	public static final String RENDER_PREVIEW = "renderPreview";
+	public static final PropertyKey<Boolean> RENDER_PREVIEW = new PropertyKey<>("renderPreview");
 	
 	@Override
 	public DataEditor<T> createEditor(EditorProperties props, PropertiesSheetStyle style)

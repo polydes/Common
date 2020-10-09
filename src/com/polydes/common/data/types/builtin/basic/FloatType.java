@@ -21,6 +21,7 @@ import com.polydes.common.data.types.DataEditor;
 import com.polydes.common.data.types.DataEditorBuilder;
 import com.polydes.common.data.types.DataType;
 import com.polydes.common.data.types.EditorProperties;
+import com.polydes.common.data.types.PropertyKey;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
 import stencyl.sw.util.VerificationHelper;
@@ -32,21 +33,22 @@ public class FloatType extends DataType<Float>
 		super(Float.class);
 	}
 	
-	public static final String MIN = "min";
-	public static final String MAX = "max";
-	public static final String STEP = "step";
-	public static final String DECIMAL_PLACES = "decimalPlaces";
+	public static final PropertyKey<Editor>  EDITOR         = new PropertyKey<>("editor");
+	public static final PropertyKey<Float>   MIN            = new PropertyKey<>("min");
+	public static final PropertyKey<Float>   MAX            = new PropertyKey<>("max");
+	public static final PropertyKey<Float>   STEP           = new PropertyKey<>("step");
+	public static final PropertyKey<Integer> DECIMAL_PLACES = new PropertyKey<>("decimalPlaces");
 
 	@Override
 	public DataEditor<Float> createEditor(EditorProperties props, PropertiesSheetStyle style)
 	{
-		float min1 = or(props.<Float>get(MIN), -Float.MAX_VALUE);
-		final float max = or(props.<Float>get(MAX), Float.MAX_VALUE);
+		float min1 = or(props.get(MIN), -Float.MAX_VALUE);
+		final float max = or(props.get(MAX), Float.MAX_VALUE);
 		final float min = min1 > max ? max : min1;
 		
 		FloatEditor editor = null;
 		
-		switch(or(props.<Editor>get(EDITOR), Editor.Plain))
+		switch(or(props.get(EDITOR), Editor.Plain))
 		{
 			case Slider:
 				editor = new SliderFloatEditor(props, style);
@@ -203,7 +205,7 @@ public class FloatType extends DataType<Float>
 		
 		public SpinnerFloatEditor(EditorProperties props, PropertiesSheetStyle style)
 		{
-			float step = or(props.<Float>get(STEP), .01f);
+			float step = or(props.get(STEP), .01f);
 			
 			model = new SpinnerNumberModel(0f, 0f, 0f, step);
 			spinner = new OutlinelessSpinner(model);
@@ -260,7 +262,7 @@ public class FloatType extends DataType<Float>
 		{
 			field = style.createTextField();
 			
-			int decimalPlaces = or(props.<Integer>get(DECIMAL_PLACES), 2);
+			int decimalPlaces = or(props.get(DECIMAL_PLACES), 2);
 			factor = (float) Math.pow(10, decimalPlaces);
 			
 			slider = new JSlider();

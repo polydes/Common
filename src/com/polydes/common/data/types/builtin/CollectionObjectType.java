@@ -10,6 +10,7 @@ import com.polydes.common.data.types.DataEditor;
 import com.polydes.common.data.types.DataEditorBuilder;
 import com.polydes.common.data.types.DataType;
 import com.polydes.common.data.types.EditorProperties;
+import com.polydes.common.data.types.PropertyKey;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
 public class CollectionObjectType extends DataType<Object>
@@ -19,8 +20,8 @@ public class CollectionObjectType extends DataType<Object>
 		super(Object.class, "com.polydes.common.CollectionObject");
 	}
 	
-	public static final String SOURCE = "source";
-	public static final String FILTER = "filter";
+	public static final PropertyKey<Collection<? extends Object>> SOURCE = new PropertyKey<>("source");
+	public static final PropertyKey<Predicate<? extends Object>>  FILTER = new PropertyKey<>("filter");
 
 	@Override
 	public DataEditor<Object> createEditor(EditorProperties props, PropertiesSheetStyle style)
@@ -78,8 +79,8 @@ public class CollectionObjectType extends DataType<Object>
 		
 		public CollectionObjectEditor(EditorProperties props, PropertiesSheetStyle style)
 		{
-			Collection<Object> list = props.get(SOURCE);
-			Predicate<Object> filter = props.get(FILTER);
+			Collection list = props.get(SOURCE);
+			Predicate filter = props.get(FILTER);
 			combo = new UpdatingCombo<Object>(list, filter == null ? null : o -> filter.test(o));
 			combo.addActionListener(event -> updated());
 		}

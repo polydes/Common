@@ -14,6 +14,7 @@ import com.polydes.common.data.types.DataEditor;
 import com.polydes.common.data.types.DataEditorBuilder;
 import com.polydes.common.data.types.DataType;
 import com.polydes.common.data.types.EditorProperties;
+import com.polydes.common.data.types.PropertyKey;
 import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
 public class StringType extends DataType<String>
@@ -23,12 +24,13 @@ public class StringType extends DataType<String>
 		super(String.class);
 	}
 	
-	public static final String REGEX = "regex";
+	public static final PropertyKey<Editor> EDITOR = new PropertyKey<>("editor");
+	public static final PropertyKey<String> REGEX = new PropertyKey<>("regex");
 	
 	@Override
 	public DataEditor<String> createEditor(EditorProperties props, PropertiesSheetStyle style)
 	{
-		switch(or(props.<Editor>get(EDITOR), Editor.SingleLine))
+		switch(or(props.get(EDITOR), Editor.SingleLine))
 		{
 			case Expanding:
 				return new ExpandingStringEditor(props, style);

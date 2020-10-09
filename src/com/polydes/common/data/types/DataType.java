@@ -8,9 +8,6 @@ import com.polydes.common.ui.propsheet.PropertiesSheetStyle;
 
 public abstract class DataType<T> implements Comparable<DataType<?>>, RegistryObject
 {
-	public static String DEFAULT_VALUE = "default";
-	public static String EDITOR = "editor";
-	
 	public final Class<T> javaType;
 	private String id; //registry key
 	
