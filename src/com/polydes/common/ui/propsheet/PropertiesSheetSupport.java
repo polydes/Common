@@ -21,7 +21,7 @@ public class PropertiesSheetSupport
 	
 	private final Object model;
 	private Map<String, Object> proxy;
-	private boolean declaredFieldsOnly = false;
+	private boolean declaredFieldsOnly = true;
 	
 	public PropertiesSheetSupport(DialogPanel panel, Object model)
 	{
@@ -58,9 +58,9 @@ public class PropertiesSheetSupport
 		proxy = new HashMap<>();
 	}
 	
-	public void useDeclaredFieldsOnly()
+	public void useNondeclaredFields()
 	{
-		declaredFieldsOnly = true;
+		declaredFieldsOnly = false;
 	}
 	
 	public PropertiesSheetBuilder build()
