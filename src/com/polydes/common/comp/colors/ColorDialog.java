@@ -2,6 +2,7 @@ package com.polydes.common.comp.colors;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -18,9 +19,11 @@ import javax.swing.JWindow;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import com.polydes.common.comp.utils.InvokedMenu;
+
 import stencyl.sw.SW;
 
-public class ColorDialog extends JWindow implements ActionListener
+public class ColorDialog extends JWindow implements ActionListener, InvokedMenu
 {
 	public static final int WIDTH = 340;
 	public static final int HEIGHT = 195;
@@ -357,5 +360,11 @@ public class ColorDialog extends JWindow implements ActionListener
 	public void removeChangeListneer(ChangeListener l)
 	{
 		listeners.remove(l);	
+	}
+
+	@Override
+	public Component getInvoker()
+	{
+		return display;
 	}
 }

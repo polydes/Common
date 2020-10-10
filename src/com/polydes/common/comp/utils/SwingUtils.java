@@ -10,12 +10,13 @@ public class SwingUtils
 	/**
 	 * Returns whether the component is part of the parent's
 	 * container hierarchy. If a parent in the chain is of type 
-	 * JPopupMenu, the parent chain of its invoker is walked.
+	 * JPopupMenu or InvokedMenu, the parent chain of its invoker
+	 * is walked.
 	 * 
 	 * @param focusOwner
 	 * @param parent
 	 * @return true if the component is contained under the parent's 
-	 *    hierarchy, coping with JPopupMenus.
+	 *    hierarchy, coping with JPopupMenus and InvokedMenus.
 	 */
 	public static boolean isDescendingFrom(Component focusOwner, Component parent)
 	{
@@ -26,6 +27,8 @@ public class SwingUtils
 			
 			if (focusOwner instanceof JPopupMenu)
 				focusOwner = ((JPopupMenu) focusOwner).getInvoker();
+			else if (focusOwner instanceof InvokedMenu)
+				focusOwner = ((InvokedMenu) focusOwner).getInvoker();
 			else
 				focusOwner = focusOwner.getParent();
 		}
