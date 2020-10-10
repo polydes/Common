@@ -1,7 +1,6 @@
 package com.polydes.common.data.types.builtin.extra;
 
 import java.awt.Color;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -58,7 +57,7 @@ public class ColorType extends DataType<Color>
 		
 		public ColorEditor()
 		{
-			control = new ColorDisplay(20, 20, null, null);
+			control = new ColorDisplay(20, 20, null);
 			
 			control.addActionListener(new ActionListener()
 			{
@@ -88,11 +87,6 @@ public class ColorType extends DataType<Color>
 			if(c == null)
 				c = Color.BLACK;
 			control.setColor(c);
-		}
-		
-		public void setOwner(Window owner)
-		{
-			control.setOwner(owner);
 		}
 		
 		@Override

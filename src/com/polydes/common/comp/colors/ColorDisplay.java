@@ -29,12 +29,9 @@ public class ColorDisplay extends JPanel
 	
 	private ArrayList<ActionListener> listeners;
 	
-	private Window owner;
-	
-	public ColorDisplay(int width, int height, Color color, final Window owner)
+	public ColorDisplay(int width, int height, Color color)
 	{
 		this.color = color;
-		this.owner = owner;
 		
 		listeners = new ArrayList<ActionListener>();
 		
@@ -56,7 +53,7 @@ public class ColorDisplay extends JPanel
 	
 	public ColorDisplay()
 	{
-		this(0, 0, null, null);
+		this(0, 0, null);
 	}
 	
 	private MouseAdapter colorDisplayClicked = new MouseAdapter()
@@ -64,6 +61,7 @@ public class ColorDisplay extends JPanel
 		@Override
 		public void mousePressed(MouseEvent e)
 		{
+			Window owner = SwingUtilities.getWindowAncestor(ColorDisplay.this);
 			colorDialog = new ColorDialog(ColorDisplay.this, owner);
 			colorDialog.setVisible(true);
 			Point p = e.getPoint();
@@ -124,10 +122,5 @@ public class ColorDisplay extends JPanel
 		g2d.fillRect(0, 0, width, height);
 		g2d.setColor(color);
 		g2d.fillRect(0, 0, width, height);
-	}
-
-	public void setOwner(Window owner)
-	{
-		this.owner = owner;
 	}
 }
