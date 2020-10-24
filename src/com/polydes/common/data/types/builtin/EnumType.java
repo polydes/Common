@@ -22,8 +22,14 @@ public class EnumType extends DataType<Enum>
 	@Override
 	public DataEditor<Enum> createEditor(EditorProperties properties, PropertiesSheetStyle style)
 	{
-		Class<? extends Enum<?>> enumClass = properties.get(ENUM_TYPE);
-		return new EnumEditor<>((Class<Enum>) enumClass);
+		return _createEditor(properties, style);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private <T extends Enum<T>> EnumEditor<T> _createEditor(EditorProperties properties, PropertiesSheetStyle style)
+	{
+		Class<T> enumClass = (Class<T>) properties.get(ENUM_TYPE);
+		return new EnumEditor<>(enumClass);
 	}
 	
 	@Override
