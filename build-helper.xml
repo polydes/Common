@@ -30,7 +30,6 @@
 	
 	<property name="common.src" value="${common.base}/src" />
 	<property name="common.pkg" value="com/polydes/common" />
-	<property name="commonjar" value="${buildpath}/com.polydes.common.jar" />
 	
 	<var name="this.src" value="./src" />
 	<var name="this.build" value="./build" />
@@ -53,7 +52,7 @@
 		They will be ignored the second time they're evaluated (when <antcall> is used).
 	-->
 	<set-var-if-unset name="srcpath" value="${this.src}" />
-	<set-var-if-unset name="clspath" value="${swjar}:${commonjar}" />
+	<set-var-if-unset name="clspath" value="${swjar}" />
 	<set-var-if-unset name="usinglibs" value="false" />
 	
 	<set-var-if-unset name="name" value="My Extension" />
